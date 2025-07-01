@@ -29,7 +29,7 @@ const FilterBar = ({ selectedThemes, onThemeChange }: FilterBarProps) => {
   };
 
   return (
-    <div className="fixed top-20 left-0 right-0 z-40 glass-effect border-b border-white/20">
+    <div className="fixed top-16 left-0 right-0 z-40 glass-effect border-b border-white/20">
       <div className="container mx-auto px-4 py-3">
         <div className="flex items-center space-x-2 overflow-x-auto scrollbar-hide">
           <span className="text-sm font-medium text-gray-600 whitespace-nowrap mr-2">테마:</span>
