@@ -7,18 +7,10 @@ import { ArrowLeft, MapPin, Clock, Navigation, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
-
 const MapNavigation = () => {
   const { spotId } = useParams<{ spotId: string }>();
   const navigate = useNavigate();
-  const mapContainer = useRef<HTMLDivElement>(null);
   const [spot, setSpot] = useState<PhotoSpot | null>(null);
-  const [map, setMap] = useState<any>(null);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [routeDistance, setRouteDistance] = useState<string>('');
   const [routeTime, setRouteTime] = useState<string>('');
@@ -31,67 +23,23 @@ const MapNavigation = () => {
   }, [spotId]);
 
   useEffect(() => {
-    if (!spot || !mapContainer.current) return;
-
-    // 카카오맵 API 로드
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=YOUR_KAKAO_API_KEY&autoload=false&libraries=services`;
-    document.head.appendChild(script);
-
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const options = {
-          center: new window.kakao.maps.LatLng(spot.coordinates.lat, spot.coordinates.lng),
-          level: 3
+    // 사용자 위치 가져오기
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const userPos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
         };
+        setUserLocation(userPos);
 
-        const kakaoMap = new window.kakao.maps.Map(mapContainer.current, options);
-        setMap(kakaoMap);
-
-        // 목적지 마커
-        const markerPosition = new window.kakao.maps.LatLng(spot.coordinates.lat, spot.coordinates.lng);
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-          title: spot.name
-        });
-        marker.setMap(kakaoMap);
-
-        // 사용자 위치 가져오기
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            const userPos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            setUserLocation(userPos);
-
-            // 사용자 위치 마커
-            const userMarkerPosition = new window.kakao.maps.LatLng(userPos.lat, userPos.lng);
-            const userMarker = new window.kakao.maps.Marker({
-              position: userMarkerPosition,
-              title: '현재 위치'
-            });
-            userMarker.setMap(kakaoMap);
-
-            // 거리 계산
-            const distance = calculateDistance(userPos, spot.coordinates);
-            setRouteDistance(`${distance.toFixed(1)}km`);
-            setRouteTime(`${Math.ceil(distance * 12)}분`); // 대략적인 도보 시간
-
-            // 지도 범위 조정
-            const bounds = new window.kakao.maps.LatLngBounds();
-            bounds.extend(markerPosition);
-            bounds.extend(userMarkerPosition);
-            kakaoMap.setBounds(bounds);
-          });
+        // 거리 계산
+        if (spot) {
+          const distance = calculateDistance(userPos, spot.coordinates);
+          setRouteDistance(`${distance.toFixed(1)}km`);
+          setRouteTime(`${Math.ceil(distance * 12)}분`); // 대략적인 도보 시간
         }
       });
-    };
-
-    return () => {
-      document.head.removeChild(script);
-    };
+    }
   }, [spot]);
 
   const calculateDistance = (pos1: { lat: number; lng: number }, pos2: { lat: number; lng: number }) => {
@@ -141,9 +89,50 @@ const MapNavigation = () => {
       </div>
 
       <div className="pt-16">
-        {/* 지도 */}
-        <div className="h-[60vh] relative">
-          <div ref={mapContainer} className="w-full h-full" />
+        {/* 목업 지도 */}
+        <div className="h-[60vh] relative bg-gradient-to-br from-green-100 via-blue-50 to-yellow-50">
+          {/* 가상의 도로와 건물들 */}
+          <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 400 300">
+            {/* 도로 */}
+            <path d="M0,150 Q100,120 200,150 Q300,180 400,150" stroke="#ddd" strokeWidth="20" fill="none"/>
+            <path d="M150,0 Q180,100 150,200 Q120,300 150,300" stroke="#ddd" strokeWidth="15" fill="none"/>
+            
+            {/* 건물들 */}
+            <rect x="50" y="80" width="40" height="60" fill="#e5e7eb" rx="5"/>
+            <rect x="320" y="100" width="50" height="80" fill="#d1d5db" rx="5"/>
+            <rect x="200" y="50" width="45" height="70" fill="#e5e7eb" rx="5"/>
+            <rect x="100" y="200" width="35" height="50" fill="#d1d5db" rx="5"/>
+            
+            {/* 공원 */}
+            <circle cx="250" cy="200" r="30" fill="#dcfce7"/>
+            <circle cx="240" cy="190" r="8" fill="#16a34a" opacity="0.6"/>
+            <circle cx="260" cy="210" r="6" fill="#16a34a" opacity="0.6"/>
+          </svg>
+          
+          {/* 사용자 위치 (파란 점) */}
+          <div className="absolute bottom-1/3 left-1/4 w-4 h-4 bg-blue-500 rounded-full border-2 border-white shadow-lg animate-pulse">
+            <div className="absolute inset-0 bg-blue-300 rounded-full animate-ping opacity-75"></div>
+          </div>
+          
+          {/* 목적지 마커 (빨간 핀) */}
+          <div className="absolute top-1/3 right-1/3 flex flex-col items-center">
+            <div className="w-8 h-8 bg-coral-500 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+              <MapPin className="w-5 h-5 text-white" />
+            </div>
+            <div className="w-1 h-4 bg-coral-500"></div>
+          </div>
+          
+          {/* 경로 라인 */}
+          <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 300">
+            <path 
+              d="M100,200 Q150,150 200,120 Q250,100 300,100" 
+              stroke="#ef4444" 
+              strokeWidth="3" 
+              fill="none" 
+              strokeDasharray="10,5"
+              className="animate-pulse"
+            />
+          </svg>
           
           {/* 지도 오버레이 정보 */}
           <div className="absolute top-4 left-4 right-4">
@@ -173,6 +162,23 @@ const MapNavigation = () => {
                 </div>
               </div>
             </Card>
+          </div>
+
+          {/* 지도 컨트롤 */}
+          <div className="absolute bottom-4 right-4 flex flex-col space-y-2">
+            <button className="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <span className="text-lg font-bold text-gray-600">+</span>
+            </button>
+            <button className="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <span className="text-lg font-bold text-gray-600">-</span>
+            </button>
+          </div>
+
+          {/* 현재 위치 버튼 */}
+          <div className="absolute bottom-4 left-4">
+            <button className="w-10 h-10 bg-white rounded-lg shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+            </button>
           </div>
         </div>
 

@@ -110,7 +110,7 @@ const Index = () => {
         onThemeChange={setSelectedThemes}
       />
       
-      <main className="pt-28 pb-6">
+      <main className="pt-[120px] pb-6">
         <div className="container mx-auto px-4">
           {/* 뷰 모드 전환 */}
           <div className="flex justify-center mb-6">
