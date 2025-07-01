@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PhotoSpot, SpotTheme, UserLocation } from '@/types';
 import { mockPhotoSpots } from '@/data/mockSpots';
 import Header from '@/components/Header';
@@ -9,6 +9,7 @@ import MapView from '@/components/MapView';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [selectedThemes, setSelectedThemes] = useState<SpotTheme[]>([]);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [filteredSpots, setFilteredSpots] = useState<PhotoSpot[]>(mockPhotoSpots);
@@ -87,8 +88,7 @@ const Index = () => {
   }, [selectedThemes, userLocation]);
 
   const handleNavigate = (spot: PhotoSpot) => {
-    const url = `https://map.kakao.com/link/to/${encodeURIComponent(spot.name)},${spot.coordinates.lat},${spot.coordinates.lng}`;
-    window.open(url, '_blank');
+    navigate(`/navigation/${spot.id}`);
   };
 
   const handleBookmark = (spot: PhotoSpot) => {
