@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { PhotoSpot } from '@/types';
-import { MapPin, Navigation } from 'lucide-react';
+import { MapPin, Navigation, Bookmark } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 
 interface SpotCardProps {
