@@ -1,73 +1,117 @@
-# Welcome to your Lovable project
+🟪 서비스명: 포토필터 (PhotoFilter)
 
-## Project info
+한 줄 설명:
+> "내 위치 기준, 정확한 촬영 지점과 방향까지 안내해주는 포토스팟 큐레이션 지도 플랫폼"
 
-**URL**: https://lovable.dev/projects/f957c815-2302-400c-adfb-9ae16381b395
+────────────────────────────────────────────
+🎯 서비스 목적
 
-## How can I edit this code?
+- 사진 찍기 좋은 장소를 단순히 ‘근처’로 추천하는 수준을 넘어서,
+- 정확한 촬영 좌표(위도/경도), 방향, 시간대, 포즈 팁까지 알려줌으로써
+- 진짜 실효성 있는 ‘경험형 포토 지도’를 제공
 
-There are several ways of editing your application.
+────────────────────────────────────────────
+👤 주요 페르소나
 
-**Use Lovable**
+1. 👩 페르소나: 소연 (22세, 대학생)
+   - 특징: 커플 데이트 중 감성적인 사진을 남기는 걸 중요하게 생각
+   - 문제: 위치는 알지만 “정확히 어디서 찍어야 예쁘게 나오는지” 늘 헷갈림
+   - 목표: 다른 커플들이 많이 찍은 스팟, 인스타 갬성 벽화 등에서 예쁜 커플샷 남기고 싶음
+   - 사용 방식: ‘커플’ 테마 선택 → 가까운 포토스팟 클릭 → 정확한 촬영 위치/방향 확인 → 사진 촬영
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f957c815-2302-400c-adfb-9ae16381b395) and start prompting.
+2. 👨 페르소나: 지훈 (29세, 숏폼 콘텐츠 크리에이터)
+   - 특징: 로컬 감성 장소에서 영상 콘텐츠 촬영함 (틱톡, 릴스 등)
+   - 문제: 매번 장소를 찾고 예쁘게 나오는 구도를 잡기까지 시간이 너무 오래 걸림
+   - 목표: 이번 콘텐츠에 어울리는 촬영 배경과 조건을 빠르게 찾고 싶음
+   - 사용 방식: ‘이색/레트로’ 테마 선택 → 촬영 위치와 방향, 추천 시간대까지 확인 후 바로 촬영
 
-Changes made via Lovable will be committed automatically to this repo.
+3. 👩‍🦰 페르소나: 은정 (31세, 혼자 여행자)
+   - 특징: 조용한 평일 낮 시간대에 감성 사진 찍는 것을 좋아함
+   - 문제: 관광지는 북적거려서 피하고 싶고, 장소가 사진으로만은 잘 안 보여서 헤맴
+   - 목표: 조용한 시간대에 혼자 삼각대 놓고 찍기 좋은 장소를 알고 싶음
+   - 사용 방식: ‘혼자’, ‘조용한’, ‘사람 없는 시간’ 필터 적용 → 추천 포토포인트 이동 → 정밀 위치 도착 후 셀프 촬영
 
-**Use your preferred IDE**
+────────────────────────────────────────────
+🧭 사용자 스토리
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+시나리오 A: “커플 데이트 중 예쁜 사진 찍고 싶어”
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. 소연은 남자친구와 서울숲에서 산책 중.
+2. “우리 사진 찍자” 했지만, 어딘지 잘 몰라서 포토필터 앱 실행
+3. ‘커플’, ‘자연 배경’ 테마 선택 → 거리순으로 스팟 목록 정렬
+4. ‘서울숲 메타세쿼이아 길 17m 포인트’ 선택 → 좌표 기반 촬영 위치 핀 확인
+5. 앱의 나침반 기능으로 “동쪽 45도 방향” 안내를 받고 그 방향으로 사진 촬영
+6. 사용자의 예시 사진 참고해 포즈 잡고 사진 찍기 성공!
 
-Follow these steps:
+시나리오 B: “콘텐츠 찍을 장소를 빠르게 찾고 싶어”
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. 지훈은 홍대에서 즉석 틱톡을 촬영하려 함
+2. ‘이색/레트로’ 테마 필터 선택 → “오늘 조도 좋은 장소” 상위 추천 클릭
+3. ‘홍대 놀이터 벽화 포인트 (위도/경도 O)’ 클릭
+4. 예시 영상 확인 → 같은 각도로 촬영 → 챌린지 해시태그 등록 → 게시
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+────────────────────────────────────────────
+🧩 핵심 기능 요약
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. 📍 정확한 포토 좌표 제공
+   - 모든 스팟은 위도/경도 기반 좌표와 촬영 방향(0~359도)으로 지정
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+2. 🎯 테마/목적 필터
+   - 커플 / 혼자 / 콘텐츠용 / 반려동물 / 자연 / 벽화 / 이색 공간 등
 
-**Edit a file directly in GitHub**
+3. 🖼️ 장소 상세
+   - 촬영 위치 핀 + 방향 나침반 안내
+   - 예시 사진, 추천 시간대, 장소 설명, 사용자 꿀팁
+   - 주변 편의 시설: 화장실, 벤치, 카페 등
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+4. ⭐ 리뷰/인증
+   - “진짜 이 위치 맞아요!”, “벽화 사라졌어요” 등 실시간 제보
+   - GPS 기반 인증샷 업로드 기능
 
-**Use GitHub Codespaces**
+5. 🧭 지도 UI
+   - 거리순 / 감성순 정렬
+   - 위치 핀 → 클릭 → 바로 가기
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+6. 📌 리스트 기능
+   - 내 장소 저장 / 리스트 생성 / 친구 공유
 
-## What technologies are used for this project?
+────────────────────────────────────────────
+🗺️ 페이지 구성
 
-This project is built with:
+1. [홈]
+   - 오늘의 추천 스팟
+   - 인기 급상승
+   - 날씨/계절/시간대 기반 추천
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+2. [지도]
+   - 현재 위치 중심
+   - 거리순 / 분위기순 정렬
+   - 테마 필터 + 검색
 
-## How can I deploy this project?
+3. [장소 상세]
+   - 예시 사진, 추천 각도, 시간대
+   - 촬영 위치 + 방향 안내 (나침반)
+   - 저장, 공유, 후기 작성
 
-Simply open [Lovable](https://lovable.dev/projects/f957c815-2302-400c-adfb-9ae16381b395) and click on Share -> Publish.
+4. [리스트]
+   - 저장한 장소
+   - 사용자 지정 테마 목록 (‘봄 커플샷’, ‘혼자 감성 장소’ 등)
 
-## Can I connect a custom domain to my Lovable project?
+5. [프로필]
+   - 내가 다녀온 장소
+   - 내 리뷰, 내 사진
 
-Yes, you can!
+────────────────────────────────────────────
+🎯 타깃 사용자 요약
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- 20대 커플 & 감성 데이트족
+- 콘텐츠 제작자 (유튜버, 틱톡커, 인스타 크리에이터)
+- 혼자 여행하며 셀프 촬영하는 사람들
+- SNS에서 예쁜 장소를 보고 따라가봤지만 실패한 적 있는 사람들
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+────────────────────────────────────────────
+📌 키 메시지 요약
+
+“예쁜 장소는 많지만,  
+정확히 어딘지 알려주는 건 우리뿐입니다.  
+딱 여기서, 이 방향으로 찍어보세요. 포토필터가 알려줄게요.”
