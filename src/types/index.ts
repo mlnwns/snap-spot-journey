@@ -41,6 +41,11 @@ export interface PhotoSpot {
   instagramTags?: string[];
   userGenerated?: boolean;
   verificationCount?: number;
+  userPhotos?: {
+    image: string;
+    username: string;
+    instagramUrl: string;
+  }[];
 }
 
 export type SpotCategory = 

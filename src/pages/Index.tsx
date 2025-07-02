@@ -7,7 +7,6 @@ import Header from '@/components/Header';
 import FilterBar from '@/components/FilterBar';
 import SpotCard from '@/components/SpotCard';
 import MapView from '@/components/MapView';
-import SpotDetailModal from '@/components/SpotDetailModal';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
@@ -17,8 +16,6 @@ const Index = () => {
   const [filteredSpots, setFilteredSpots] = useState<PhotoSpot[]>(mockPhotoSpots);
   const [selectedSpot, setSelectedSpot] = useState<PhotoSpot | null>(null);
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
-  const [detailModalSpot, setDetailModalSpot] = useState<PhotoSpot | null>(null);
-  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
   const { toast } = useToast();
 
   // 사용자 위치 가져오기
@@ -92,7 +89,9 @@ const Index = () => {
   }, [selectedThemes, userLocation]);
 
   const handleNavigate = (spot: PhotoSpot) => {
-    navigate(`/navigation/${spot.id}`);
+    // 카카오맵으로 길찾기
+    const kakaoUrl = `https://map.kakao.com/link/to/${encodeURIComponent(spot.name)},${spot.coordinates.lat},${spot.coordinates.lng}`;
+    window.open(kakaoUrl, '_blank');
   };
 
   const handleBookmark = (spot: PhotoSpot) => {
@@ -106,11 +105,6 @@ const Index = () => {
     setSelectedSpot(spot);
   };
 
-  const handleShowDetails = (spot: PhotoSpot) => {
-    setDetailModalSpot(spot);
-    setIsDetailModalOpen(true);
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-pastel-50 to-sky-50">
       <Header />
@@ -119,7 +113,7 @@ const Index = () => {
         onThemeChange={setSelectedThemes}
       />
       
-      <main className="pt-[136px] pb-6">
+      <main className="pt-[128px] pb-6">
         <div className="container mx-auto px-4">
           {/* 뷰 모드 전환 */}
           <div className="flex justify-center mb-6">
@@ -170,7 +164,6 @@ const Index = () => {
                     spot={spot}
                     onNavigate={handleNavigate}
                     onBookmark={handleBookmark}
-                    onShowDetails={handleShowDetails}
                   />
                 ))}
               </div>
@@ -199,13 +192,6 @@ const Index = () => {
           )}
         </div>
       </main>
-
-      <SpotDetailModal
-        spot={detailModalSpot}
-        isOpen={isDetailModalOpen}
-        onClose={() => setIsDetailModalOpen(false)}
-        onNavigate={handleNavigate}
-      />
     </div>
   );
 };

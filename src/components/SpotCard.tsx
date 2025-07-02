@@ -1,17 +1,19 @@
 
 import React from 'react';
 import { PhotoSpot } from '@/types';
-import { MapPin, Navigation, Bookmark, Star, Clock, Users, DollarSign, Info } from 'lucide-react';
+import { MapPin, Navigation, Bookmark, Star, Clock, Users, DollarSign } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { useNavigate } from 'react-router-dom';
 
 interface SpotCardProps {
   spot: PhotoSpot;
   onNavigate: (spot: PhotoSpot) => void;
   onBookmark: (spot: PhotoSpot) => void;
-  onShowDetails: (spot: PhotoSpot) => void;
 }
 
-const SpotCard = ({ spot, onNavigate, onBookmark, onShowDetails }: SpotCardProps) => {
+const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
+  const navigate = useNavigate();
+
   const getCrowdLevelText = (level: string) => {
     switch (level) {
       case 'low': return '여유로움';
@@ -30,9 +32,13 @@ const SpotCard = ({ spot, onNavigate, onBookmark, onShowDetails }: SpotCardProps
     }
   };
 
+  const handleCardClick = () => {
+    navigate(`/spot/${spot.id}`);
+  };
+
   return (
     <Card className="group overflow-hidden shadow-soft hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-pastel-200 bg-white/95 backdrop-blur-sm">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden cursor-pointer" onClick={handleCardClick}>
         <div className="aspect-[4/3] relative">
           <img 
             src={spot.images[0]} 
@@ -44,8 +50,11 @@ const SpotCard = ({ spot, onNavigate, onBookmark, onShowDetails }: SpotCardProps
         
         {/* 북마크 버튼 */}
         <button
-          onClick={() => onBookmark(spot)}
-          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110"
+          onClick={(e) => {
+            e.stopPropagation();
+            onBookmark(spot);
+          }}
+          className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110 z-10"
         >
           <Bookmark className="w-4 h-4 text-pastel-600" />
         </button>
@@ -76,7 +85,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark, onShowDetails }: SpotCardProps
         </div>
       </div>
       
-      <div className="p-4">
+      <div className="p-4 cursor-pointer" onClick={handleCardClick}>
         <div className="mb-3">
           <div className="flex items-start justify-between mb-1">
             <h3 className="font-bold text-slate-900 text-base leading-tight flex-1">{spot.name}</h3>
@@ -156,14 +165,10 @@ const SpotCard = ({ spot, onNavigate, onBookmark, onShowDetails }: SpotCardProps
           </div>
           <div className="flex space-x-2">
             <button
-              onClick={() => onShowDetails(spot)}
-              className="flex items-center space-x-1 px-3 py-1.5 bg-white border border-pastel-300 text-slate-600 text-sm font-medium rounded-lg hover:bg-pastel-50 transition-all duration-200"
-            >
-              <Info className="w-3 h-3" />
-              <span>상세</span>
-            </button>
-            <button
-              onClick={() => onNavigate(spot)}
+              onClick={(e) => {
+                e.stopPropagation();
+                onNavigate(spot);
+              }}
               className="flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-pastel-500 to-sky-500 text-slate-700 text-sm font-semibold rounded-lg hover:from-pastel-600 hover:to-sky-600 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <Navigation className="w-3 h-3" />
