@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { PhotoSpot } from '@/types';
+import { PhotoSpot, categoryLabels } from '@/types';
 import { MapPin, Navigation, Bookmark, Star, Clock, Users, DollarSign } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { useNavigate } from 'react-router-dom';
@@ -37,7 +37,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
   };
 
   return (
-    <Card className="group overflow-hidden shadow-soft hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-pastel-200 bg-white/95 backdrop-blur-sm">
+    <Card className="group overflow-hidden shadow-soft hover:shadow-lg transition-all duration-300 hover:-translate-y-1 border border-blue-200 bg-white/95 backdrop-blur-sm">
       <div className="relative overflow-hidden cursor-pointer" onClick={handleCardClick}>
         <div className="aspect-[4/3] relative">
           <img 
@@ -56,14 +56,14 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           }}
           className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white transition-all duration-200 shadow-lg hover:shadow-xl hover:scale-110 z-10"
         >
-          <Bookmark className="w-4 h-4 text-pastel-600" />
+          <Bookmark className="w-4 h-4 text-blue-600" />
         </button>
 
         {/* 클러스터 표시 */}
         {spot.cluster && spot.cluster.length > 0 && (
           <div className="absolute top-3 left-3">
-            <div className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-pastel-500/90 backdrop-blur-sm">
-              <span className="text-xs font-medium text-slate-700">{spot.cluster.length + 1}개 스팟</span>
+            <div className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-blue-500/90 backdrop-blur-sm">
+              <span className="text-xs font-medium text-white">{spot.cluster.length + 1}개 스팟</span>
             </div>
           </div>
         )}
@@ -81,6 +81,13 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           <div className="flex items-center space-x-1 px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm">
             <Star className="w-3 h-3 text-yellow-500 fill-current" />
             <span className="text-xs font-semibold text-slate-800">{spot.rating}</span>
+          </div>
+        </div>
+
+        {/* 카테고리 배지 */}
+        <div className="absolute top-3 left-1/2 transform -translate-x-1/2">
+          <div className="px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm">
+            <span className="text-xs font-medium text-slate-700">{categoryLabels[spot.category]}</span>
           </div>
         </div>
       </div>
@@ -101,7 +108,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
         
         {/* 상세 위치 정보 */}
         {spot.detailedLocation && (
-          <div className="mb-3 p-2 bg-pastel-50 rounded-lg">
+          <div className="mb-3 p-2 bg-blue-50 rounded-lg">
             <div className="text-xs text-slate-600 space-y-0.5">
               {spot.detailedLocation.building && (
                 <div>🏢 {spot.detailedLocation.building}</div>
@@ -117,10 +124,10 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
         )}
         
         <div className="flex items-center text-xs text-slate-500 mb-3">
-          <MapPin className="w-3 h-3 mr-1 text-pastel-500" />
+          <MapPin className="w-3 h-3 mr-1 text-blue-500" />
           <span className="truncate flex-1">{spot.address}</span>
           {spot.distance && (
-            <span className="ml-2 font-semibold text-pastel-600 bg-pastel-100 px-2 py-0.5 rounded-full">
+            <span className="ml-2 font-semibold text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
               {spot.distance.toFixed(1)}km
             </span>
           )}
@@ -151,7 +158,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           {spot.themes.slice(0, 3).map((theme) => (
             <span 
               key={theme} 
-              className="px-2 py-0.5 bg-gradient-to-r from-pastel-100 to-sky-100 text-slate-600 text-xs rounded-full font-medium border border-pastel-200"
+              className="px-2 py-0.5 bg-gradient-to-r from-blue-100 to-indigo-100 text-slate-600 text-xs rounded-full font-medium border border-blue-200"
             >
               #{theme}
             </span>
@@ -161,7 +168,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
         <div className="flex items-center justify-between">
           <div className="flex items-center text-xs text-slate-600">
             <Clock className="w-3 h-3 mr-1" />
-            <span>{spot.bestTime[0]}</span>
+            <span>📸 {spot.bestTime[0]} 촬영 추천</span>
           </div>
           <div className="flex space-x-2">
             <button
@@ -169,7 +176,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
                 e.stopPropagation();
                 onNavigate(spot);
               }}
-              className="flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-pastel-500 to-sky-500 text-slate-700 text-sm font-semibold rounded-lg hover:from-pastel-600 hover:to-sky-600 transition-all duration-200 shadow-md hover:shadow-lg"
+              className="flex items-center space-x-1 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-semibold rounded-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 shadow-md hover:shadow-lg"
             >
               <Navigation className="w-3 h-3" />
               <span>길찾기</span>

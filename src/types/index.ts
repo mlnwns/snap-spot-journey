@@ -1,4 +1,3 @@
-
 export interface PhotoSpot {
   id: string;
   name: string;
@@ -58,6 +57,18 @@ export type SpotCategory =
   | 'modern'
   | 'rooftop'
   | 'underground';
+
+export const categoryLabels: Record<SpotCategory, string> = {
+  outdoor: '야외',
+  indoor: '실내',
+  cafe: '카페',
+  nature: '자연',
+  urban: '도시',
+  historical: '역사',
+  modern: '현대',
+  rooftop: '루프탑',
+  underground: '지하'
+};
 
 export type SpotTheme = 
   | 'couple' 
