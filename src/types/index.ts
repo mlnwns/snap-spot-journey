@@ -19,6 +19,28 @@ export interface PhotoSpot {
   amenities: string[];
   tags: string[];
   tips: string[];
+  // 새로운 상세 정보 추가
+  detailedLocation?: {
+    building?: string;
+    floor?: string;
+    entrance?: string;
+    landmark?: string;
+  };
+  operationInfo?: {
+    fee?: string;
+    hours?: string;
+    reservation?: boolean;
+    parking?: boolean;
+  };
+  realTimeInfo?: {
+    isOpen: boolean;
+    currentCrowd: number;
+    weatherSuitability: 'good' | 'fair' | 'poor';
+  };
+  cluster?: PhotoSpot[];
+  instagramTags?: string[];
+  userGenerated?: boolean;
+  verificationCount?: number;
 }
 
 export type SpotCategory = 
@@ -28,7 +50,9 @@ export type SpotCategory =
   | 'nature' 
   | 'urban' 
   | 'historical' 
-  | 'modern';
+  | 'modern'
+  | 'rooftop'
+  | 'underground';
 
 export type SpotTheme = 
   | 'couple' 
@@ -39,7 +63,9 @@ export type SpotTheme =
   | 'minimal' 
   | 'nature' 
   | 'urban'
-  | 'pet';
+  | 'pet'
+  | 'sunset'
+  | 'night';
 
 export interface Review {
   id: string;
@@ -51,6 +77,7 @@ export interface Review {
   images: string[];
   createdAt: Date;
   helpful: number;
+  verified: boolean;
 }
 
 export interface UserLocation {
@@ -66,4 +93,28 @@ export interface FilterOptions {
   crowdLevel: string[];
   rating: number;
   sortBy: 'distance' | 'rating' | 'popularity';
+  showUserGenerated: boolean;
+  operationStatus: 'all' | 'open' | 'closed';
+}
+
+export interface SpotRegistration {
+  name: string;
+  description: string;
+  coordinates: UserLocation;
+  images: File[];
+  themes: SpotTheme[];
+  category: SpotCategory;
+  tips: string[];
+  detailedLocation?: {
+    building?: string;
+    floor?: string;
+    entrance?: string;
+    landmark?: string;
+  };
+  operationInfo?: {
+    fee?: string;
+    hours?: string;
+    reservation?: boolean;
+    parking?: boolean;
+  };
 }

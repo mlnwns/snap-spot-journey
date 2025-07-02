@@ -23,7 +23,46 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['오전 9-11시', '오후 5-7시'],
     amenities: ['카페', '화장실', '주차장'],
     tags: ['한옥', '전통', '골목길'],
-    tips: ['오전 일찍 가면 사람이 적어요', '한복 대여점이 근처에 많아요']
+    tips: ['오전 일찍 가면 사람이 적어요', '한복 대여점이 근처에 많아요'],
+    detailedLocation: {
+      building: '북촌문화센터',
+      floor: '1층 입구',
+      entrance: '정문',
+      landmark: '삼청동 입구에서 도보 5분'
+    },
+    operationInfo: {
+      fee: '무료',
+      hours: '24시간',
+      reservation: false,
+      parking: true
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 7,
+      weatherSuitability: 'good'
+    },
+    instagramTags: ['#북촌한옥마을', '#한옥스타그램', '#서울여행', '#감성사진'],
+    userGenerated: false,
+    verificationCount: 127,
+    cluster: [
+      {
+        id: '1-1',
+        name: '북촌 8경 포인트',
+        description: '북촌의 대표 뷰포인트',
+        address: '서울특별시 종로구 계동길 31',
+        coordinates: { lat: 37.5818, lng: 126.9835 },
+        category: 'historical',
+        themes: ['couple', 'content'],
+        rating: 4.8,
+        reviewCount: 234,
+        images: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400'],
+        crowdLevel: 'medium',
+        bestTime: ['오전 10-12시'],
+        amenities: ['벤치'],
+        tags: ['전망', '한옥'],
+        tips: ['일출 시간이 가장 예뻐요']
+      } as PhotoSpot
+    ]
   },
   {
     id: '2',
@@ -45,7 +84,24 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['오후 2-5시', '저녁 6-8시'],
     amenities: ['카페', '화장실'],
     tags: ['벽화', '계단', '마을'],
-    tips: ['계단이 많으니 편한 신발 추천', '저녁에 가면 조명이 예뻐요']
+    tips: ['계단이 많으니 편한 신발 추천', '저녁에 가면 조명이 예뻐요'],
+    detailedLocation: {
+      landmark: '이화여대 정문에서 도보 10분',
+      entrance: '계단 입구'
+    },
+    operationInfo: {
+      fee: '무료',
+      hours: '일출-일몰',
+      reservation: false,
+      parking: false
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 5,
+      weatherSuitability: 'good'
+    },
+    userGenerated: false,
+    verificationCount: 89
   },
   {
     id: '3',
@@ -67,7 +123,24 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['오전 10-12시', '오후 4-6시'],
     amenities: ['화장실', '매점', '쉼터'],
     tags: ['숲', '나무', '산책'],
-    tips: ['봄, 가을이 가장 예뻐요', '강아지 산책하는 분들이 많아요']
+    tips: ['봄, 가을이 가장 예뻐요', '강아지 산책하는 분들이 많아요'],
+    detailedLocation: {
+      entrance: '서울숲 정문',
+      landmark: '메타세쿼이아 숲길 입구'
+    },
+    operationInfo: {
+      fee: '무료',
+      hours: '05:00-24:00',
+      reservation: false,
+      parking: true
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 3,
+      weatherSuitability: 'good'
+    },
+    userGenerated: false,
+    verificationCount: 156
   },
   {
     id: '4',
@@ -79,7 +152,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
       lng: 126.9222
     },
     category: 'urban',
-    themes: ['friends', 'content', 'urban'],
+    themes: ['friends', 'content', 'urban', 'night'],
     rating: 4.3,
     reviewCount: 456,
     images: [
@@ -89,7 +162,20 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['저녁 7-10시', '밤 10-12시'],
     amenities: ['카페', '화장실', '편의점'],
     tags: ['스트리트', '네온', '클럽'],
-    tips: ['저녁에 가면 네온사인이 예뻐요', '주말에는 사람이 너무 많아요']
+    tips: ['저녁에 가면 네온사인이 예뻐요', '주말에는 사람이 너무 많아요'],
+    operationInfo: {
+      fee: '무료',
+      hours: '24시간',
+      reservation: false,
+      parking: false
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 8,
+      weatherSuitability: 'fair'
+    },
+    userGenerated: true,
+    verificationCount: 45
   },
   {
     id: '5',
@@ -111,7 +197,20 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['오후 3-6시', '저녁 7-9시'],
     amenities: ['카페', '벤치', '화장실'],
     tags: ['공원', '산책로', '감성'],
-    tips: ['연남동 카페들과 함께 둘러보세요', '벚꽃 시즌이 가장 예뻐요']
+    tips: ['연남동 카페들과 함께 둘러보세요', '벚꽃 시즌이 가장 예뻐요'],
+    operationInfo: {
+      fee: '무료',
+      hours: '24시간',
+      reservation: false,
+      parking: false
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 4,
+      weatherSuitability: 'good'
+    },
+    userGenerated: false,
+    verificationCount: 92
   },
   {
     id: '6',
@@ -123,7 +222,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
       lng: 126.9882
     },
     category: 'modern',
-    themes: ['couple', 'content', 'urban'],
+    themes: ['couple', 'content', 'urban', 'night', 'sunset'],
     rating: 4.4,
     reviewCount: 2341,
     images: [
@@ -133,6 +232,24 @@ export const mockPhotoSpots: PhotoSpot[] = [
     bestTime: ['일몰 시간', '밤 8-10시'],
     amenities: ['전망대', '화장실', '카페', '기념품점'],
     tags: ['야경', '전망', '타워'],
-    tips: ['일몰 시간에 가면 최고예요', '미리 예약하는 것을 추천해요']
+    tips: ['일몰 시간에 가면 최고예요', '미리 예약하는 것을 추천해요'],
+    detailedLocation: {
+      building: '남산서울타워',
+      floor: '전망대층',
+      entrance: '케이블카 또는 버스'
+    },
+    operationInfo: {
+      fee: '성인 16,000원',
+      hours: '10:00-23:00',
+      reservation: true,
+      parking: true
+    },
+    realTimeInfo: {
+      isOpen: true,
+      currentCrowd: 9,
+      weatherSuitability: 'good'
+    },
+    userGenerated: false,
+    verificationCount: 278
   }
 ];
