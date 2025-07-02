@@ -11,6 +11,20 @@ interface SpotCardProps {
   onBookmark: (spot: PhotoSpot) => void;
 }
 
+const themeLabels: Record<string, string> = {
+  couple: '커플',
+  solo: '혼자',
+  friends: '친구들',
+  content: '콘텐츠',
+  vintage: '빈티지',
+  minimal: '미니멀',
+  nature: '자연',
+  urban: '도심',
+  pet: '반려동물',
+  sunset: '노을',
+  night: '야경'
+};
+
 const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
   const navigate = useNavigate();
 
@@ -83,13 +97,6 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
             <span className="text-xs font-semibold text-slate-800">{spot.rating}</span>
           </div>
         </div>
-
-        {/* 카테고리 배지 */}
-        <div className="absolute top-3 left-1/2 transform -translate-x-1/2">
-          <div className="px-2 py-1 rounded-full bg-white/90 backdrop-blur-sm">
-            <span className="text-xs font-medium text-slate-700">{categoryLabels[spot.category]}</span>
-          </div>
-        </div>
       </div>
       
       <div className="p-4 cursor-pointer" onClick={handleCardClick}>
@@ -104,6 +111,13 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
             )}
           </div>
           <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">{spot.description}</p>
+        </div>
+        
+        {/* 카테고리 추가 */}
+        <div className="mb-3">
+          <span className="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+            {categoryLabels[spot.category]}
+          </span>
         </div>
         
         {/* 상세 위치 정보 */}
@@ -160,7 +174,7 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
               key={theme} 
               className="px-2 py-0.5 bg-gradient-to-r from-blue-100 to-indigo-100 text-slate-600 text-xs rounded-full font-medium border border-blue-200"
             >
-              #{theme}
+              #{themeLabels[theme] || theme}
             </span>
           ))}
         </div>

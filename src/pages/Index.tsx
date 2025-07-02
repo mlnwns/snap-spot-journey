@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PhotoSpot, SpotTheme, UserLocation } from '@/types';
@@ -113,8 +112,8 @@ const Index = () => {
         onThemeChange={setSelectedThemes}
       />
       
-      <main className="pt-[144px] pb-6">
-        <div className="px-4">
+      <main className="pt-[100px] pb-6">
+        <div className="px-3">
           {/* 뷰 모드 전환 */}
           <div className="flex justify-center mb-6">
             <div className="flex bg-white rounded-xl p-1 shadow-soft border border-blue-200">

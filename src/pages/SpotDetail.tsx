@@ -9,6 +9,20 @@ import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 
+const themeLabels: Record<string, string> = {
+  couple: '커플',
+  solo: '혼자',
+  friends: '친구들',
+  content: '콘텐츠',
+  vintage: '빈티지',
+  minimal: '미니멀',
+  nature: '자연',
+  urban: '도심',
+  pet: '반려동물',
+  sunset: '노을',
+  night: '야경'
+};
+
 const SpotDetail = () => {
   const { spotId } = useParams<{ spotId: string }>();
   const navigate = useNavigate();
@@ -86,7 +100,7 @@ const SpotDetail = () => {
     <div className="min-h-screen bg-gradient-to-br from-pastel-50 to-sky-50">
       {/* 헤더 */}
       <div className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-pastel-200">
-        <div className="container mx-auto px-4 py-3">
+        <div className="px-3 py-2">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <Button
@@ -97,7 +111,7 @@ const SpotDetail = () => {
               >
                 <ArrowLeft className="w-5 h-5" />
               </Button>
-              <h1 className="font-bold text-slate-800 text-lg">포토스팟</h1>
+              <h1 className="font-bold text-slate-800 text-base">포토스팟</h1>
             </div>
             
             <div className="flex items-center space-x-2">
@@ -107,7 +121,7 @@ const SpotDetail = () => {
                 onClick={handleShare}
                 className="text-slate-600 hover:text-pastel-600 p-2"
               >
-                <Share2 className="w-5 h-5" />
+                <Share2 className="w-4 h-4" />
               </Button>
               <Button
                 variant="ghost"
@@ -115,86 +129,88 @@ const SpotDetail = () => {
                 onClick={handleBookmark}
                 className={`p-2 ${isBookmarked ? 'text-pastel-600' : 'text-slate-600 hover:text-pastel-600'}`}
               >
-                <Bookmark className={`w-5 h-5 ${isBookmarked ? 'fill-current' : ''}`} />
+                <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="pt-16 pb-6">
-        {/* 이미지 갤러리 */}
-        <div className="relative">
-          <div className="aspect-[4/3] relative overflow-hidden">
-            <img 
-              src={spot.images[selectedImage]} 
-              alt={spot.name}
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
-            
-            {/* 이미지 인디케이터 */}
-            {spot.images.length > 1 && (
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-                {spot.images.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
-                      index === selectedImage ? 'bg-white' : 'bg-white/50'
-                    }`}
-                  />
-                ))}
+      <div className="pt-14 pb-6">
+        <div className="px-3 space-y-4">
+          {/* 이미지 갤러리 - 박스 안으로 이동 */}
+          <Card className="overflow-hidden shadow-soft border-pastel-200">
+            <div className="relative">
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <img 
+                  src={spot.images[selectedImage]} 
+                  alt={spot.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                
+                {/* 이미지 인디케이터 */}
+                {spot.images.length > 1 && (
+                  <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    {spot.images.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedImage(index)}
+                        className={`w-2 h-2 rounded-full transition-all ${
+                          index === selectedImage ? 'bg-white' : 'bg-white/50'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {/* 상태 배지들 */}
+                <div className="absolute top-4 left-4 flex flex-col space-y-2">
+                  {spot.cluster && spot.cluster.length > 0 && (
+                    <Badge className="bg-pastel-500/90 text-slate-700 backdrop-blur-sm text-xs">
+                      {spot.cluster.length + 1}개 스팟
+                    </Badge>
+                  )}
+                  <Badge className={`backdrop-blur-sm border text-xs ${getCrowdLevelColor(spot.crowdLevel)}`}>
+                    <Users className="w-3 h-3 mr-1" />
+                    {getCrowdLevelText(spot.crowdLevel)}
+                  </Badge>
+                  {spot.realTimeInfo?.isOpen !== undefined && (
+                    <Badge className={`backdrop-blur-sm text-xs ${
+                      spot.realTimeInfo.isOpen 
+                        ? 'bg-emerald-100/90 text-emerald-700 border-emerald-200' 
+                        : 'bg-rose-100/90 text-rose-700 border-rose-200'
+                    }`}>
+                      {spot.realTimeInfo.isOpen ? '운영중' : '운영종료'}
+                    </Badge>
+                  )}
+                </div>
+
+                {/* 평점 */}
+                <div className="absolute top-4 right-4">
+                  <div className="flex items-center space-x-1 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm">
+                    <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                    <span className="text-sm font-semibold text-slate-800">{spot.rating}</span>
+                    <span className="text-xs text-slate-600">({spot.reviewCount})</span>
+                  </div>
+                </div>
               </div>
-            )}
-
-            {/* 상태 배지들 */}
-            <div className="absolute top-4 left-4 flex flex-col space-y-2">
-              {spot.cluster && spot.cluster.length > 0 && (
-                <Badge className="bg-pastel-500/90 text-slate-700 backdrop-blur-sm">
-                  {spot.cluster.length + 1}개 스팟
-                </Badge>
-              )}
-              <Badge className={`backdrop-blur-sm border ${getCrowdLevelColor(spot.crowdLevel)}`}>
-                <Users className="w-3 h-3 mr-1" />
-                {getCrowdLevelText(spot.crowdLevel)}
-              </Badge>
-              {spot.realTimeInfo?.isOpen !== undefined && (
-                <Badge className={`backdrop-blur-sm ${
-                  spot.realTimeInfo.isOpen 
-                    ? 'bg-emerald-100/90 text-emerald-700 border-emerald-200' 
-                    : 'bg-rose-100/90 text-rose-700 border-rose-200'
-                }`}>
-                  {spot.realTimeInfo.isOpen ? '운영중' : '운영종료'}
-                </Badge>
-              )}
             </div>
+          </Card>
 
-            {/* 평점 */}
-            <div className="absolute top-4 right-4">
-              <div className="flex items-center space-x-1 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-sm">
-                <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                <span className="text-sm font-semibold text-slate-800">{spot.rating}</span>
-                <span className="text-xs text-slate-600">({spot.reviewCount})</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 space-y-6">
           {/* 기본 정보 */}
-          <Card className="p-6 shadow-soft border-pastel-200">
+          <Card className="p-4 shadow-soft border-pastel-200">
             <div className="space-y-4">
               <div>
                 <div className="flex items-start justify-between mb-2">
-                  <h1 className="text-2xl font-bold text-slate-900">{spot.name}</h1>
+                  <h1 className="text-xl font-bold text-slate-900">{spot.name}</h1>
                   {spot.userGenerated && (
-                    <Badge className="bg-green-100 text-green-700 border-green-200">
+                    <Badge className="bg-green-100 text-green-700 border-green-200 text-xs">
                       유저등록
                     </Badge>
                   )}
                 </div>
-                <p className="text-slate-600 leading-relaxed">{spot.description}</p>
+                <p className="text-slate-600 leading-relaxed text-sm">{spot.description}</p>
               </div>
 
               <div className="flex items-start space-x-2 text-sm text-slate-600">
@@ -213,8 +229,8 @@ const SpotDetail = () => {
 
               <div className="flex flex-wrap gap-2">
                 {spot.themes.map((theme) => (
-                  <Badge key={theme} variant="outline" className="bg-gradient-to-r from-pastel-100 to-sky-100 text-slate-600 border-pastel-200">
-                    #{theme}
+                  <Badge key={theme} variant="outline" className="bg-gradient-to-r from-pastel-100 to-sky-100 text-slate-600 border-pastel-200 text-xs">
+                    #{themeLabels[theme] || theme}
                   </Badge>
                 ))}
               </div>
@@ -223,8 +239,8 @@ const SpotDetail = () => {
 
           {/* 클러스터 스팟들 */}
           {spot.cluster && spot.cluster.length > 0 && (
-            <Card className="p-6 shadow-soft border-pastel-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+            <Card className="p-4 shadow-soft border-pastel-200">
+              <h3 className="text-base font-semibold text-slate-900 mb-3">
                 📍 이 장소의 다른 포토스팟들
               </h3>
               <div className="space-y-3">
@@ -236,22 +252,22 @@ const SpotDetail = () => {
                       className="w-12 h-12 object-cover rounded-lg"
                     />
                     <div className="flex-1">
-                      <h4 className="font-medium text-slate-900">{clusterSpot.name}</h4>
-                      <p className="text-sm text-slate-600 line-clamp-1">{clusterSpot.description}</p>
+                      <h4 className="font-medium text-slate-900 text-sm">{clusterSpot.name}</h4>
+                      <p className="text-xs text-slate-600 line-clamp-1">{clusterSpot.description}</p>
                       <div className="flex items-center space-x-2 mt-1">
                         <div className="flex items-center space-x-1">
                           <Star className="w-3 h-3 text-yellow-500 fill-current" />
                           <span className="text-xs text-slate-600">{clusterSpot.rating}</span>
                         </div>
                         <span className="text-xs text-slate-400">•</span>
-                        <span className="text-xs text-slate-600">{clusterSpot.themes.join(', ')}</span>
+                        <span className="text-xs text-slate-600">{clusterSpot.themes.map(t => themeLabels[t] || t).join(', ')}</span>
                       </div>
                     </div>
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => navigate(`/spot/${clusterSpot.id}`)}
-                      className="text-pastel-600 border-pastel-300 hover:bg-pastel-50"
+                      className="text-pastel-600 border-pastel-300 hover:bg-pastel-50 text-xs"
                     >
                       보기
                     </Button>
@@ -263,8 +279,8 @@ const SpotDetail = () => {
 
           {/* 운영 정보 */}
           {spot.operationInfo && (
-            <Card className="p-6 shadow-soft border-pastel-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">🕐 운영 정보</h3>
+            <Card className="p-4 shadow-soft border-pastel-200">
+              <h3 className="text-base font-semibold text-slate-900 mb-3">🕐 운영 정보</h3>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 {spot.operationInfo.fee && (
                   <div className="flex items-center space-x-2">
@@ -284,8 +300,8 @@ const SpotDetail = () => {
 
           {/* 인스타그램 사진들 */}
           {spot.userPhotos && spot.userPhotos.length > 0 && (
-            <Card className="p-6 shadow-soft border-pastel-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">
+            <Card className="p-4 shadow-soft border-pastel-200">
+              <h3 className="text-base font-semibold text-slate-900 mb-3">
                 📸 사용자들이 찍은 사진
               </h3>
               <div className="grid grid-cols-2 gap-3">
@@ -315,8 +331,8 @@ const SpotDetail = () => {
 
           {/* 추천 해시태그 */}
           {spot.instagramTags && spot.instagramTags.length > 0 && (
-            <Card className="p-6 shadow-soft border-pastel-200">
-              <h3 className="text-lg font-semibold text-slate-900 mb-4">📱 추천 해시태그</h3>
+            <Card className="p-4 shadow-soft border-pastel-200">
+              <h3 className="text-base font-semibold text-slate-900 mb-3">📱 추천 해시태그</h3>
               <div className="flex flex-wrap gap-2">
                 {spot.instagramTags.map((tag, index) => (
                   <button
