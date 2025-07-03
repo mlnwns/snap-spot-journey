@@ -15,6 +15,7 @@ const AddSpot = () => {
     themes: [],
     category: 'outdoor',
     tips: [],
+    region: 'seoul',
     detailedLocation: {},
     operationInfo: {}
   });
@@ -168,6 +169,20 @@ const AddSpot = () => {
                     {categoryOptions.map(option => (
                       <option key={option.value} value={option.value}>{option.label}</option>
                     ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">지역</label>
+                  <select
+                    value={formData.region}
+                    onChange={(e) => setFormData(prev => ({ ...prev, region: e.target.value }))}
+                    className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
+                  >
+                    <option value="seoul">서울</option>
+                    <option value="busan">부산</option>
+                    <option value="jeju">제주</option>
+                    <option value="tokyo">도쿄</option>
                   </select>
                 </div>
               </div>

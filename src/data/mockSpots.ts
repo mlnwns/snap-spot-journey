@@ -20,11 +20,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400',
       'https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400'
     ],
-    crowdLevel: 'high',
+    averageWaitTime: 5,
+    waitTimeLevel: 'medium',
     bestTime: ['오전 9-11시', '오후 5-7시'],
     amenities: ['카페', '화장실', '주차장'],
     tags: ['한옥', '전통', '골목길'],
     tips: ['오전 일찍 가면 사람이 적어요', '한복 대여점이 근처에 많아요'],
+    region: 'seoul',
     detailedLocation: {
       building: '북촌문화센터',
       floor: '1층 입구',
@@ -39,7 +41,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 7,
+      currentWaitTime: 7,
       weatherSuitability: 'good'
     },
     instagramTags: ['#북촌한옥마을', '#한옥스타그램', '#서울여행', '#감성사진', '#포토필터'],
@@ -49,12 +51,14 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300',
         username: 'seoulphoto',
-        instagramUrl: 'https://instagram.com/seoulphoto'
+        instagramUrl: 'https://instagram.com/seoulphoto',
+        capturedTime: '오후 4시경'
       },
       {
         image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=300',
         username: 'hanok_lover',
-        instagramUrl: 'https://instagram.com/hanok_lover'
+        instagramUrl: 'https://instagram.com/hanok_lover',
+        capturedTime: '오전 10시경'
       }
     ],
     cluster: [
@@ -69,11 +73,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
         rating: 4.8,
         reviewCount: 234,
         images: ['https://images.unsplash.com/photo-1480796927426-f609979314bd?w=400'],
-        crowdLevel: 'medium',
+        averageWaitTime: 3,
+        waitTimeLevel: 'short',
         bestTime: ['오전 10-12시'],
         amenities: ['벤치'],
         tags: ['전망', '한옥'],
-        tips: ['일출 시간이 가장 예뻐요']
+        tips: ['일출 시간이 가장 예뻐요'],
+        region: 'seoul'
       } as PhotoSpot,
       {
         id: '1-2',
@@ -86,11 +92,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
         rating: 4.5,
         reviewCount: 156,
         images: ['https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400'],
-        crowdLevel: 'low',
+        averageWaitTime: 2,
+        waitTimeLevel: 'short',
         bestTime: ['오후 2-4시'],
         amenities: [],
         tags: ['계단', '한옥'],
-        tips: ['계단 중간에서 찍으면 더 멋져요']
+        tips: ['계단 중간에서 찍으면 더 멋져요'],
+        region: 'seoul'
       } as PhotoSpot
     ]
   },
@@ -111,11 +119,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400',
       'https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=400'
     ],
-    crowdLevel: 'medium',
+    averageWaitTime: 8,
+    waitTimeLevel: 'medium',
     bestTime: ['오후 2-5시', '저녁 6-8시'],
     amenities: ['카페', '화장실'],
     tags: ['벽화', '계단', '마을'],
     tips: ['계단이 많으니 편한 신발 추천', '저녁에 가면 조명이 예뻐요'],
+    region: 'seoul',
     detailedLocation: {
       landmark: '이화여대 정문에서 도보 10분',
       entrance: '계단 입구'
@@ -128,7 +138,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 5,
+      currentWaitTime: 5,
       weatherSuitability: 'good'
     },
     instagramTags: ['#이화벽화마을', '#벽화스타그램', '#계단사진', '#드라마촬영지', '#포토필터'],
@@ -138,7 +148,8 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=300',
         username: 'ewha_pic',
-        instagramUrl: 'https://instagram.com/ewha_pic'
+        instagramUrl: 'https://instagram.com/ewha_pic',
+        capturedTime: '저녁 6시경'
       }
     ]
   },
@@ -160,11 +171,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400',
       'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400'
     ],
-    crowdLevel: 'low',
+    averageWaitTime: 2,
+    waitTimeLevel: 'short',
     bestTime: ['오전 10-12시', '오후 4-6시'],
     amenities: ['화장실', '매점', '쉼터'],
     tags: ['숲', '나무', '산책'],
     tips: ['봄, 가을이 가장 예뻐요', '강아지 산책하는 분들이 많아요'],
+    region: 'seoul',
     detailedLocation: {
       entrance: '서울숲 정문',
       landmark: '메타세쿼이아 숲길 입구'
@@ -177,7 +190,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 3,
+      currentWaitTime: 3,
       weatherSuitability: 'good'
     },
     instagramTags: ['#서울숲', '#메타세쿼이아', '#자연사진', '#힐링스팟', '#포토필터'],
@@ -187,12 +200,14 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300',
         username: 'forest_seoul',
-        instagramUrl: 'https://instagram.com/forest_seoul'
+        instagramUrl: 'https://instagram.com/forest_seoul',
+        capturedTime: '오후 3시경'
       },
       {
         image: 'https://images.unsplash.com/photo-1500673922987-e212871fec22?w=300',
         username: 'nature_lover',
-        instagramUrl: 'https://instagram.com/nature_lover'
+        instagramUrl: 'https://instagram.com/nature_lover',
+        capturedTime: '오전 11시경'
       }
     ],
     cluster: [
@@ -207,11 +222,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
         rating: 4.6,
         reviewCount: 89,
         images: ['https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400'],
-        crowdLevel: 'low',
+        averageWaitTime: 1,
+        waitTimeLevel: 'short',
         bestTime: ['오후 3-5시'],
         amenities: ['벤치'],
         tags: ['벤치', '휴식'],
-        tips: ['책 가져가서 읽는 모습도 예뻐요']
+        tips: ['책 가져가서 읽는 모습도 예뻐요'],
+        region: 'seoul'
       } as PhotoSpot
     ]
   },
@@ -232,11 +249,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=400',
       'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400'
     ],
-    crowdLevel: 'high',
+    averageWaitTime: 12,
+    waitTimeLevel: 'long',
     bestTime: ['저녁 7-10시', '밤 10-12시'],
     amenities: ['카페', '화장실', '편의점'],
     tags: ['스트리트', '네온', '클럽'],
     tips: ['저녁에 가면 네온사인이 예뻐요', '주말에는 사람이 너무 많아요'],
+    region: 'seoul',
     operationInfo: {
       fee: '무료',
       hours: '24시간',
@@ -245,7 +264,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 8,
+      currentWaitTime: 15,
       weatherSuitability: 'fair'
     },
     instagramTags: ['#홍대', '#걷고싶은거리', '#네온사인', '#홍대밤거리', '#포토필터'],
@@ -255,7 +274,8 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=300',
         username: 'hongdae_night',
-        instagramUrl: 'https://instagram.com/hongdae_night'
+        instagramUrl: 'https://instagram.com/hongdae_night',
+        capturedTime: '밤 9시경'
       }
     ]
   },
@@ -276,11 +296,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400',
       'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400'
     ],
-    crowdLevel: 'medium',
+    averageWaitTime: 6,
+    waitTimeLevel: 'medium',
     bestTime: ['오후 3-6시', '저녁 7-9시'],
     amenities: ['카페', '벤치', '화장실'],
     tags: ['공원', '산책로', '감성'],
     tips: ['연남동 카페들과 함께 둘러보세요', '벚꽃 시즌이 가장 예뻐요'],
+    region: 'seoul',
     operationInfo: {
       fee: '무료',
       hours: '24시간',
@@ -289,7 +311,7 @@ export const mockPhotoSpots: PhotoSpot[] = [
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 4,
+      currentWaitTime: 4,
       weatherSuitability: 'good'
     },
     instagramTags: ['#경의선숲길', '#연남동', '#선형공원', '#산책로', '#포토필터'],
@@ -299,7 +321,8 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300',
         username: 'yeonnam_walk',
-        instagramUrl: 'https://instagram.com/yeonnam_walk'
+        instagramUrl: 'https://instagram.com/yeonnam_walk',
+        capturedTime: '오후 4시경'
       }
     ]
   },
@@ -321,11 +344,13 @@ export const mockPhotoSpots: PhotoSpot[] = [
       'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=400',
       'https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=400'
     ],
-    crowdLevel: 'high',
+    averageWaitTime: 20,
+    waitTimeLevel: 'long',
     bestTime: ['일몰 시간', '밤 8-10시'],
     amenities: ['전망대', '화장실', '카페', '기념품점'],
     tags: ['야경', '전망', '타워'],
     tips: ['일몰 시간에 가면 최고예요', '미리 예약하는 것을 추천해요'],
+    region: 'seoul',
     detailedLocation: {
       building: '남산서울타워',
       floor: '전망대층',
@@ -335,11 +360,14 @@ export const mockPhotoSpots: PhotoSpot[] = [
       fee: '성인 16,000원',
       hours: '10:00-23:00',
       reservation: true,
-      parking: true
+      parking: true,
+      officialWebsite: 'https://www.seoultower.co.kr',
+      ticketUrl: 'https://www.seoultower.co.kr/booking',
+      reservationUrl: 'https://www.seoultower.co.kr/reservation'
     },
     realTimeInfo: {
       isOpen: true,
-      currentCrowd: 9,
+      currentWaitTime: 25,
       weatherSuitability: 'good'
     },
     instagramTags: ['#남산타워', '#서울야경', '#전망대', '#야경사진', '#포토필터'],
@@ -349,12 +377,14 @@ export const mockPhotoSpots: PhotoSpot[] = [
       {
         image: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?w=300',
         username: 'seoul_night',
-        instagramUrl: 'https://instagram.com/seoul_night'
+        instagramUrl: 'https://instagram.com/seoul_night',
+        capturedTime: '저녁 7시경'
       },
       {
         image: 'https://images.unsplash.com/photo-1487958449943-2429e8be8625?w=300',
         username: 'tower_view',
-        instagramUrl: 'https://instagram.com/tower_view'
+        instagramUrl: 'https://instagram.com/tower_view',
+        capturedTime: '밤 9시경'
       }
     ]
   }

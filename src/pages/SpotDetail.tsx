@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PhotoSpot } from '@/types';
@@ -70,20 +69,18 @@ const SpotDetail = () => {
     }
   };
 
-  const getCrowdLevelText = (level: string) => {
-    switch (level) {
-      case 'low': return '여유로움';
-      case 'medium': return '보통';
-      case 'high': return '붐빔';
-      default: return '보통';
-    }
+  const getWaitTimeText = (averageWaitTime: number, level: string) => {
+    if (averageWaitTime === 0) return '대기 없음';
+    if (averageWaitTime < 3) return `약 ${averageWaitTime}분`;
+    if (averageWaitTime < 10) return `${averageWaitTime}분 내외`;
+    return `${averageWaitTime}분 이상`;
   };
 
-  const getCrowdLevelColor = (level: string) => {
+  const getWaitTimeBadgeColor = (level: string) => {
     switch (level) {
-      case 'low': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
+      case 'short': return 'bg-emerald-100 text-emerald-700 border-emerald-200';
       case 'medium': return 'bg-amber-100 text-amber-700 border-amber-200';
-      case 'high': return 'bg-rose-100 text-rose-700 border-rose-200';
+      case 'long': return 'bg-rose-100 text-rose-700 border-rose-200';
       default: return 'bg-slate-100 text-slate-700 border-slate-200';
     }
   };
@@ -171,9 +168,9 @@ const SpotDetail = () => {
                       {spot.cluster.length + 1}개 스팟
                     </Badge>
                   )}
-                  <Badge className={`backdrop-blur-sm border text-xs ${getCrowdLevelColor(spot.crowdLevel)}`}>
+                  <Badge className={`backdrop-blur-sm border text-xs ${getWaitTimeBadgeColor(spot.waitTimeLevel)}`}>
                     <Users className="w-3 h-3 mr-1" />
-                    {getCrowdLevelText(spot.crowdLevel)}
+                    {getWaitTimeText(spot.averageWaitTime, spot.waitTimeLevel)}
                   </Badge>
                   {spot.realTimeInfo?.isOpen !== undefined && (
                     <Badge className={`backdrop-blur-sm text-xs ${
