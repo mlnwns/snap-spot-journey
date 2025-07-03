@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PhotoSpot, SpotTheme, UserLocation } from '@/types';
@@ -112,10 +113,10 @@ const Index = () => {
         onThemeChange={setSelectedThemes}
       />
       
-      <main className="pt-[92px] pb-6">
+      <main className="pt-[96px] pb-6">
         <div className="px-3">
-          {/* 뷰 모드 전환 */}
-          <div className="flex justify-center mb-6">
+          {/* 뷰 모드 전환 - 상단 여백 추가 */}
+          <div className="flex justify-center mb-6 mt-4">
             <div className="flex bg-white rounded-xl p-1 shadow-soft border border-blue-200">
               <button
                 onClick={() => setViewMode('list')}

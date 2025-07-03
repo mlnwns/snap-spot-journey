@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Camera, MapPin, Star, Users, Clock, Instagram } from 'lucide-react';
+import { Camera, MapPin, Star, Users, Clock, Instagram, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 

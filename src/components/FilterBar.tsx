@@ -31,7 +31,7 @@ const FilterBar = ({ selectedThemes, onThemeChange }: FilterBarProps) => {
   };
 
   return (
-    <div className="fixed top-[52px] left-0 right-0 z-40 glass-effect border-b border-blue-200 max-w-[393px] mx-auto">
+    <div className="fixed top-[56px] left-0 right-0 z-40 glass-effect border-b border-blue-200 max-w-[393px] mx-auto">
       <div className="px-3 py-2">
         <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-hide">
           <span className="text-xs font-medium text-slate-600 whitespace-nowrap mr-1">테마:</span>
