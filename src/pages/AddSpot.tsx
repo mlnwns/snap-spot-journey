@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Camera, MapPin, ArrowLeft, Upload, Plus, X } from 'lucide-react';
@@ -109,31 +108,26 @@ const AddSpot = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pastel-50 to-sky-50">
+    <div className="min-h-screen bg-gradient-to-br from-pastel-50 to-sky-50 max-w-[393px] mx-auto">
       {/* 헤더 */}
-      <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-pastel-200">
-        <div className="container mx-auto px-4 py-3">
+      <header className="fixed top-0 left-0 right-0 z-50 glass-effect border-b border-pastel-200 max-w-[393px] mx-auto">
+        <div className="px-3 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
               <button 
-                onClick={() => navigate('/')}
+                onClick={() => navigate('/spots')}
                 className="p-2 hover:bg-white/50 rounded-lg transition-colors"
               >
-                <ArrowLeft className="w-5 h-5 text-slate-600" />
+                <ArrowLeft className="w-4 h-4 text-slate-600" />
               </button>
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 gradient-blue rounded-lg flex items-center justify-center">
-                  <Camera className="w-5 h-5 text-slate-700" />
-                </div>
-                <h1 className="text-lg font-bold text-slate-800">포토스팟 등록</h1>
-              </div>
+              <h1 className="text-base font-bold text-slate-800">포토스팟 등록</h1>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="pt-[72px] pb-6">
-        <div className="container mx-auto px-4 max-w-2xl">
+      <main className="pt-[56px] pb-6">
+        <div className="px-3 max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* 기본 정보 */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
