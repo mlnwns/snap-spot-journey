@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PhotoSpot, SpotTheme, UserLocation } from '@/types';
@@ -6,11 +7,13 @@ import Header from '@/components/Header';
 import FilterBar from '@/components/FilterBar';
 import SpotCard from '@/components/SpotCard';
 import MapView from '@/components/MapView';
+import RegionSelector from '@/components/RegionSelector';
 import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const navigate = useNavigate();
   const [selectedThemes, setSelectedThemes] = useState<SpotTheme[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
   const [filteredSpots, setFilteredSpots] = useState<PhotoSpot[]>(mockPhotoSpots);
   const [selectedSpot, setSelectedSpot] = useState<PhotoSpot | null>(null);
@@ -67,16 +70,23 @@ const Index = () => {
     return R * c;
   };
 
-  // 테마 필터링
+  // 테마 및 지역 필터링
   useEffect(() => {
     let filtered = mockPhotoSpots;
     
+    // 테마 필터링
     if (selectedThemes.length > 0) {
       filtered = filtered.filter(spot => 
         selectedThemes.some(theme => spot.themes.includes(theme))
       );
     }
 
+    // 지역 필터링
+    if (selectedRegion) {
+      filtered = filtered.filter(spot => spot.region === selectedRegion);
+    }
+
+    // 거리 계산 및 정렬
     if (userLocation) {
       filtered = filtered.map(spot => ({
         ...spot,
@@ -85,7 +95,7 @@ const Index = () => {
     }
 
     setFilteredSpots(filtered);
-  }, [selectedThemes, userLocation]);
+  }, [selectedThemes, selectedRegion, userLocation]);
 
   const handleNavigate = (spot: PhotoSpot) => {
     // 카카오맵으로 길찾기
@@ -114,7 +124,15 @@ const Index = () => {
       
       <main className="pt-[96px] pb-6">
         <div className="px-3">
-          {/* 뷰 모드 전환 - 상단 여백 더 늘림 */}
+          {/* 지역 선택 */}
+          <div className="mb-4">
+            <RegionSelector 
+              selectedRegion={selectedRegion}
+              onRegionChange={setSelectedRegion}
+            />
+          </div>
+
+          {/* 뷰 모드 전환 */}
           <div className="flex justify-center mb-6 mt-6">
             <div className="flex bg-white rounded-xl p-1 shadow-soft border border-blue-200">
               <button
@@ -145,7 +163,12 @@ const Index = () => {
               {/* 헤더 정보 */}
               <div className="text-center mb-6">
                 <h2 className="text-lg font-bold text-slate-800 mb-2">
-                  {userLocation ? '📍 가까운 포토스팟' : '🔥 인기 포토스팟'}
+                  {selectedRegion 
+                    ? `🏙️ ${selectedRegion} 포토스팟` 
+                    : userLocation 
+                      ? '📍 가까운 포토스팟' 
+                      : '🔥 인기 포토스팟'
+                  }
                 </h2>
                 <p className="text-slate-600 text-sm">
                   {selectedThemes.length > 0 
@@ -174,7 +197,7 @@ const Index = () => {
                     선택한 조건의 포토스팟이 없어요
                   </h3>
                   <p className="text-slate-600 text-sm">
-                    다른 테마를 선택해보세요
+                    다른 테마나 지역을 선택해보세요
                   </p>
                 </div>
               )}

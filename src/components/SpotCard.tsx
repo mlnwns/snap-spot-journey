@@ -1,8 +1,9 @@
 
 import React from 'react';
 import { PhotoSpot, categoryLabels } from '@/types';
-import { MapPin, Navigation, Bookmark, Star, Clock, Users, DollarSign } from 'lucide-react';
+import { MapPin, Navigation, Bookmark, Star, Clock, Users, DollarSign, ExternalLink, Instagram } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 interface SpotCardProps {
@@ -28,26 +29,29 @@ const themeLabels: Record<string, string> = {
 const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
   const navigate = useNavigate();
 
-  const getCrowdLevelText = (level: string) => {
-    switch (level) {
-      case 'low': return '여유로움';
-      case 'medium': return '보통';
-      case 'high': return '붐빔';
-      default: return '보통';
-    }
+  const getWaitTimeText = (averageWaitTime: number, level: string) => {
+    if (averageWaitTime === 0) return '대기 없음';
+    if (averageWaitTime < 3) return `약 ${averageWaitTime}분`;
+    if (averageWaitTime < 10) return `${averageWaitTime}분 내외`;
+    return `${averageWaitTime}분 이상`;
   };
 
-  const getCrowdLevelColor = (level: string) => {
+  const getWaitTimeBadgeColor = (level: string) => {
     switch (level) {
-      case 'low': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
+      case 'short': return 'text-emerald-600 bg-emerald-50 border-emerald-200';
       case 'medium': return 'text-amber-600 bg-amber-50 border-amber-200';
-      case 'high': return 'text-rose-600 bg-rose-50 border-rose-200';
+      case 'long': return 'text-rose-600 bg-rose-50 border-rose-200';
       default: return 'text-slate-600 bg-slate-50 border-slate-200';
     }
   };
 
   const handleCardClick = () => {
     navigate(`/spot/${spot.id}`);
+  };
+
+  const handleInstagramClick = (e: React.MouseEvent, url: string) => {
+    e.stopPropagation();
+    window.open(url, '_blank');
   };
 
   return (
@@ -82,11 +86,11 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           </div>
         )}
 
-        {/* 혼잡도 배지 */}
+        {/* 대기 시간 배지 (혼잡도 대신) */}
         <div className="absolute bottom-3 left-3">
-          <div className={`flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-sm ${getCrowdLevelColor(spot.crowdLevel)}`}>
-            <Users className="w-3 h-3" />
-            <span>{getCrowdLevelText(spot.crowdLevel)}</span>
+          <div className={`flex items-center space-x-1 px-2.5 py-1 rounded-full text-xs font-medium border backdrop-blur-sm ${getWaitTimeBadgeColor(spot.waitTimeLevel)}`}>
+            <Clock className="w-3 h-3" />
+            <span>{getWaitTimeText(spot.averageWaitTime, spot.waitTimeLevel)}</span>
           </div>
         </div>
 
@@ -113,9 +117,12 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           <p className="text-slate-600 text-sm leading-relaxed line-clamp-2">{spot.description}</p>
         </div>
         
-        {/* 카테고리 추가 */}
-        <div className="mb-3">
+        {/* 지역 및 카테고리 */}
+        <div className="mb-3 flex items-center space-x-2">
           <span className="inline-block px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+            {spot.region}
+          </span>
+          <span className="inline-block px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full font-medium">
             {categoryLabels[spot.category]}
           </span>
         </div>
@@ -147,7 +154,45 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
           )}
         </div>
 
-        {/* 운영 정보 */}
+        {/* 인스타그램 사용자 사진들 (개선된 UI) */}
+        {spot.userPhotos && spot.userPhotos.length > 0 && (
+          <div className="mb-3">
+            <div className="text-xs text-slate-600 mb-2 font-medium">📸 인스타그램에서</div>
+            <div className="grid grid-cols-3 gap-2">
+              {spot.userPhotos.slice(0, 3).map((photo, index) => (
+                <div key={index} className="relative group">
+                  <div className="aspect-square rounded-lg overflow-hidden">
+                    <img 
+                      src={photo.image} 
+                      alt={`@${photo.username} 사진`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex flex-col items-center justify-center p-1">
+                    <button
+                      onClick={(e) => handleInstagramClick(e, photo.instagramUrl)}
+                      className="text-white text-xs text-center"
+                    >
+                      <Instagram className="w-3 h-3 mx-auto mb-1" />
+                      <div className="font-medium">@{photo.username}</div>
+                      {photo.capturedTime && (
+                        <div className="text-xs opacity-80">{photo.capturedTime}</div>
+                      )}
+                    </button>
+                  </div>
+                  {/* 항상 보이는 사용자명 */}
+                  <div className="absolute bottom-1 left-1 right-1">
+                    <div className="bg-black/80 text-white text-xs px-1 py-0.5 rounded text-center truncate">
+                      @{photo.username}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 운영 정보 및 외부 링크 */}
         {spot.operationInfo && (
           <div className="flex items-center space-x-2 mb-3 text-xs">
             {spot.operationInfo.fee && (
@@ -164,6 +209,20 @@ const SpotCard = ({ spot, onNavigate, onBookmark }: SpotCardProps) => {
               }`}>
                 {spot.realTimeInfo.isOpen ? '운영중' : '운영종료'}
               </div>
+            )}
+            {spot.operationInfo.officialWebsite && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(spot.operationInfo!.officialWebsite, '_blank');
+                }}
+                className="h-6 px-2 text-xs"
+              >
+                <ExternalLink className="w-3 h-3 mr-1" />
+                공식사이트
+              </Button>
             )}
           </div>
         )}
