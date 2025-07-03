@@ -105,21 +105,21 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 max-w-sm mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 max-w-[393px] mx-auto">
       <Header />
       <FilterBar 
         selectedThemes={selectedThemes}
         onThemeChange={setSelectedThemes}
       />
       
-      <main className="pt-[100px] pb-6">
+      <main className="pt-[92px] pb-6">
         <div className="px-3">
           {/* 뷰 모드 전환 */}
           <div className="flex justify-center mb-6">
             <div className="flex bg-white rounded-xl p-1 shadow-soft border border-blue-200">
               <button
                 onClick={() => setViewMode('list')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   viewMode === 'list' 
                     ? 'bg-blue-500 text-white shadow-md' 
                     : 'text-slate-600 hover:text-blue-600'
@@ -129,7 +129,7 @@ const Index = () => {
               </button>
               <button
                 onClick={() => setViewMode('map')}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                   viewMode === 'map' 
                     ? 'bg-blue-500 text-white shadow-md' 
                     : 'text-slate-600 hover:text-blue-600'
@@ -144,7 +144,7 @@ const Index = () => {
             <>
               {/* 헤더 정보 */}
               <div className="text-center mb-6">
-                <h2 className="text-xl font-bold text-slate-800 mb-2">
+                <h2 className="text-lg font-bold text-slate-800 mb-2">
                   {userLocation ? '📍 가까운 포토스팟' : '🔥 인기 포토스팟'}
                 </h2>
                 <p className="text-slate-600 text-sm">
@@ -180,7 +180,7 @@ const Index = () => {
               )}
             </>
           ) : (
-            <div className="h-[calc(100vh-220px)] rounded-xl overflow-hidden shadow-soft border border-blue-200">
+            <div className="h-[calc(100vh-200px)] rounded-xl overflow-hidden shadow-soft border border-blue-200">
               <MapView
                 spots={filteredSpots}
                 userLocation={userLocation}
