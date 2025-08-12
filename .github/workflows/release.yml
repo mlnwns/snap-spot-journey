@@ -1,7 +1,7 @@
 name: Release (Dry Run Test)
 
 on:
-  workflow_dispatch: # 버튼 클릭으로 실행
+  workflow_dispatch:
   push:
     branches:
       - main
