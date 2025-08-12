@@ -28,4 +28,6 @@ jobs:
       - name: Dry Run Semantic Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm dlx semantic-release --dry-run
+        run: |
+          pnpm add -D semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/github @semantic-release/commit-analyzer @semantic-release/release-notes-generator
+          pnpm dlx semantic-release
