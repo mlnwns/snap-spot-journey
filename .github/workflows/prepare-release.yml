@@ -31,8 +31,7 @@ jobs:
       - name: Install pnpm
         run: npm install -g pnpm
 
-      # 1. frontend 폴더에서 버전 결정 및 CHANGELOG.md 업데이트
-      - name: Update version and CHANGELOG
+      - name: Update version, lockfile, and CHANGELOG
         id: update_files
         run: |
           cd frontend
@@ -48,6 +47,9 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          # package.json 변경사항을 pnpm-lock.yaml에 반영
+          pnpm install --lockfile-only
 
           if [ -f CHANGELOG.md ]; then
             mv CHANGELOG.md OLD_CHANGELOG.md
@@ -65,7 +67,6 @@ jobs:
 
           mv CHANGELOG.md ../
 
-      # 2. 루트 경로에서 변경사항 커밋 및 푸시
       - name: Commit & push to PR branch
         run: |
           if git diff --quiet -- CHANGELOG.md frontend/package.json frontend/pnpm-lock.yaml; then
