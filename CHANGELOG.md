@@ -1,5 +1,14 @@
-## 0.3.0 (2025-08-14)
+## 0.4.0 (2025-08-14)
 
+* fix: padding 수정 ([626fe66](https://github.com/mlnwns/snap-spot-journey/commit/626fe66))
+* fix: 문서 수정 ([4647b83](https://github.com/mlnwns/snap-spot-journey/commit/4647b83))
+* fix: 불필요한 문서 삭제 ([f420584](https://github.com/mlnwns/snap-spot-journey/commit/f420584))
+* fix: 불필요한 주석 제거 ([3046e39](https://github.com/mlnwns/snap-spot-journey/commit/3046e39))
+* chore: 시멘틱 버저닝 제거 ([4136d60](https://github.com/mlnwns/snap-spot-journey/commit/4136d60))
+* chore(release): 1.1.0 [skip ci] ([85b5fef](https://github.com/mlnwns/snap-spot-journey/commit/85b5fef))
+* chore(release): prepare for v0.1.0 ([61b3ea6](https://github.com/mlnwns/snap-spot-journey/commit/61b3ea6))
+* chore(release): prepare for v0.2.0 ([acefe99](https://github.com/mlnwns/snap-spot-journey/commit/acefe99))
+* chore(release): prepare for v0.3.0 ([3bf4e1b](https://github.com/mlnwns/snap-spot-journey/commit/3bf4e1b))
 * feat: em 수정 ([6cc9046](https://github.com/mlnwns/snap-spot-journey/commit/6cc9046))
 * feat: npm 삭제 ([19bbad0](https://github.com/mlnwns/snap-spot-journey/commit/19bbad0))
 * feat: pnpm 설치 ([824d8b1](https://github.com/mlnwns/snap-spot-journey/commit/824d8b1))
@@ -8,12 +17,6 @@
 * feat: Shoot ([10c7699](https://github.com/mlnwns/snap-spot-journey/commit/10c7699))
 * feat: 문서 수정 ([4545fce](https://github.com/mlnwns/snap-spot-journey/commit/4545fce))
 * feat: 테스트 ([98084db](https://github.com/mlnwns/snap-spot-journey/commit/98084db))
-* chore: 시멘틱 버저닝 제거 ([4136d60](https://github.com/mlnwns/snap-spot-journey/commit/4136d60))
-* chore(release): 1.1.0 [skip ci] ([85b5fef](https://github.com/mlnwns/snap-spot-journey/commit/85b5fef))
-* chore(release): prepare for v0.1.0 ([61b3ea6](https://github.com/mlnwns/snap-spot-journey/commit/61b3ea6))
-* chore(release): prepare for v0.2.0 ([acefe99](https://github.com/mlnwns/snap-spot-journey/commit/acefe99))
-* fix: 문서 수정 ([4647b83](https://github.com/mlnwns/snap-spot-journey/commit/4647b83))
-* fix: 불필요한 주석 제거 ([3046e39](https://github.com/mlnwns/snap-spot-journey/commit/3046e39))
 * Add initial PhotoFilter project setup. ([29ad316](https://github.com/mlnwns/snap-spot-journey/commit/29ad316))
 * Fix mobile responsiveness and UI ([7a075cf](https://github.com/mlnwns/snap-spot-journey/commit/7a075cf))
 * Fix type errors in mock data and SpotDetail. ([6ae2bd3](https://github.com/mlnwns/snap-spot-journey/commit/6ae2bd3))
@@ -38,44 +41,3 @@
 
 
 
-## 0.1.0 (2025-08-14)
-
-* feat: em 수정 ([6cc9046](https://github.com/mlnwns/snap-spot-journey/commit/6cc9046))
-* feat: npm 삭제 ([19bbad0](https://github.com/mlnwns/snap-spot-journey/commit/19bbad0))
-* feat: pnpm 설치 ([824d8b1](https://github.com/mlnwns/snap-spot-journey/commit/824d8b1))
-* feat: run 추가 ([150a94a](https://github.com/mlnwns/snap-spot-journey/commit/150a94a))
-* feat: semantic-release dry-run 워크플로우 추가 ([8ffcb6a](https://github.com/mlnwns/snap-spot-journey/commit/8ffcb6a))
-* feat: Shoot ([10c7699](https://github.com/mlnwns/snap-spot-journey/commit/10c7699))
-* feat: 테스트 ([98084db](https://github.com/mlnwns/snap-spot-journey/commit/98084db))
-* chore: 시멘틱 버저닝 제거 ([4136d60](https://github.com/mlnwns/snap-spot-journey/commit/4136d60))
-* chore(release): 1.1.0 [skip ci] ([85b5fef](https://github.com/mlnwns/snap-spot-journey/commit/85b5fef))
-* fix: 불필요한 주석 제거 ([3046e39](https://github.com/mlnwns/snap-spot-journey/commit/3046e39))
-* Add initial PhotoFilter project setup. ([29ad316](https://github.com/mlnwns/snap-spot-journey/commit/29ad316))
-* Fix mobile responsiveness and UI ([7a075cf](https://github.com/mlnwns/snap-spot-journey/commit/7a075cf))
-* Fix type errors in mock data and SpotDetail. ([6ae2bd3](https://github.com/mlnwns/snap-spot-journey/commit/6ae2bd3))
-* Refine spot details, add Instagram integration, and enhance UI ([05477a8](https://github.com/mlnwns/snap-spot-journey/commit/05477a8))
-* Update README.md ([266ed11](https://github.com/mlnwns/snap-spot-journey/commit/266ed11))
-* Update README.md ([cb59c7e](https://github.com/mlnwns/snap-spot-journey/commit/cb59c7e))
-* Update README.md ([eb4984e](https://github.com/mlnwns/snap-spot-journey/commit/eb4984e))
-* Update README.md ([8dc9bc9](https://github.com/mlnwns/snap-spot-journey/commit/8dc9bc9))
-* Update README.md ([b6e0b69](https://github.com/mlnwns/snap-spot-journey/commit/b6e0b69))
-* Use tech stack vite_react_shadcn_ts ([e6c3b7d](https://github.com/mlnwns/snap-spot-journey/commit/e6c3b7d))
-* Refactor: Enhance image layout and add Kakao Map navigation ([a18d1a5](https://github.com/mlnwns/snap-spot-journey/commit/a18d1a5))
-* Refactor: Implement new features based on user feedback ([254d4a9](https://github.com/mlnwns/snap-spot-journey/commit/254d4a9))
-* Refactor: Implement user feedback and design changes ([43e9c52](https://github.com/mlnwns/snap-spot-journey/commit/43e9c52))
-* Refactor: Unified header and spacing adjustments ([92beb88](https://github.com/mlnwns/snap-spot-journey/commit/92beb88))
-* Fix: Bookmark navigation and UI improvements ([e8fcf13](https://github.com/mlnwns/snap-spot-journey/commit/e8fcf13))
-* Fix: Header and FilterBar spacing ([4782692](https://github.com/mlnwns/snap-spot-journey/commit/4782692))
-* Fix: Header and FilterBar spacing, MapNavigation mockup ([24215f5](https://github.com/mlnwns/snap-spot-journey/commit/24215f5))
-* Fix: Mobile responsiveness for header and filter ([9040f1e](https://github.com/mlnwns/snap-spot-journey/commit/9040f1e))
-* Fix: Resolve 'Bookmark' import error in SpotCard ([2883efc](https://github.com/mlnwns/snap-spot-journey/commit/2883efc))
-* Fix: Tailwind CSS build error ([0a85be3](https://github.com/mlnwns/snap-spot-journey/commit/0a85be3))
-* Fix: Unified header and spacing adjustments ([318e15e](https://github.com/mlnwns/snap-spot-journey/commit/318e15e))
-
-
-
-## [0.0.0](https://github.com/mlnwns/snap-spot-journey/compare/v0.1.0...v0.0.0) (2025-08-14)
-
-### Features
-
-* em 수정 ([6cc9046](https://github.com/mlnwns/snap-spot-journey/commit/6cc90466c9d9a40414666304c1727e38504f556a))
