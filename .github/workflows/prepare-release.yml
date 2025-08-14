@@ -1,0 +1,67 @@
+name: Prepare Release
+
+on:
+  pull_request:
+    branches: [main] # PR의 대상 브랜치가 main일 때 실행
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write # PR 브랜치에 커밋/푸시하려면 필요
+
+defaults:
+  run:
+    working-directory: ./frontend
+
+jobs:
+  prepare:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }} # PR의 헤드 브랜치를 체크아웃
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Determine next version (auto)
+        id: bump
+        run: |
+          BUMP=$(npx -y \
+            -p conventional-recommended-bump@9 \
+            -p conventional-changelog-conventionalcommits@7 \
+            conventional-recommended-bump -p conventionalcommits)
+
+          if [ -z "$BUMP" ]; then BUMP=patch; fi
+
+          npm version "$BUMP" --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update CHANGELOG (only latest section)
+        run: |
+          npx -y \
+            -p conventional-changelog-cli@5 \
+            -p conventional-changelog-conventionalcommits@7 \
+            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
+
+      - name: Commit & push to PR branch
+        run: |
+          if git diff --quiet -- CHANGELOG.md package.json; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add CHANGELOG.md package.json
+          git commit -m "chore(release): prepare for v${{ steps.bump.outputs.version }}"
+          git push origin HEAD:${{ github.head_ref }}
