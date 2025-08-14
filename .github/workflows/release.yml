@@ -1,76 +1,61 @@
 name: Release
 
 on:
+  workflow_dispatch:
   push:
-    branches: [main]
-
-permissions:
-  contents: write
+    branches:
+      - main
 
 jobs:
   release:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout (full history)
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 20
+          cache: "pnpm"
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9
 
       - name: Install dependencies
-        run: |
-          cd frontend
-          npm ci
-
-      - name: Fetch all tags
-        run: git fetch --tags
+        run: pnpm install --frozen-lockfile
 
       - name: Determine next version
         id: bump
         run: |
-          cd frontend
-          BUMP=$(npx -y \
+          NEXT_VERSION=$(pnpm dlx \
             -p conventional-recommended-bump@9 \
             -p conventional-changelog-conventionalcommits@7 \
             conventional-recommended-bump -p conventionalcommits)
-          if [ -z "$BUMP" ]; then BUMP=patch; fi
-          npm version "$BUMP" --no-git-tag-version
-          VERSION=$(node -p "require('./package.json').version")
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Update CHANGELOG
+      - name: Bump version
         run: |
-          # 전체 변경 이력을 유지 (-r 0)
-          npx -y \
-            -p conventional-changelog-cli@5 \
-            -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 0
+          pnpm version ${{ steps.bump.outputs.version }} --no-git-tag-version
 
-      - name: Commit version & changelog
+      - name: Generate changelog
+        run: |
+          pnpm dlx \
+            -p conventional-changelog-cli@4 \
+            -p conventional-changelog-conventionalcommits@7 \
+            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s
+
+      - name: Commit and tag release
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json CHANGELOG.md
+          git commit -m "chore(release): ${{ steps.bump.outputs.version }}"
+          git tag -a "v${{ steps.bump.outputs.version }}" -m "Release ${{ steps.bump.outputs.version }}"
 
-          git add CHANGELOG.md frontend/package.json
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-            exit 0
-          fi
-
-          git commit -m "chore(release): v${{ steps.bump.outputs.version }}"
-          git tag -a "v${{ steps.bump.outputs.version }}" -m "Release v${{ steps.bump.outputs.version }}"
-          git push origin main --tags
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: v${{ steps.bump.outputs.version }}
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push changes
+        run: git push origin main --tags
