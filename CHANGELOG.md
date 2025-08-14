@@ -6,12 +6,15 @@
 * fix: 불필요한 문서 삭제 ([f420584](https://github.com/mlnwns/snap-spot-journey/commit/f420584))
 * fix: 불필요한 주석 제거 ([3046e39](https://github.com/mlnwns/snap-spot-journey/commit/3046e39))
 * fix: 태그 불러오기 ([7161ed0](https://github.com/mlnwns/snap-spot-journey/commit/7161ed0))
+
 * chore: 시멘틱 버저닝 제거 ([4136d60](https://github.com/mlnwns/snap-spot-journey/commit/4136d60))
 * chore(release): 1.1.0 [skip ci] ([85b5fef](https://github.com/mlnwns/snap-spot-journey/commit/85b5fef))
 * chore(release): prepare for v0.1.0 ([61b3ea6](https://github.com/mlnwns/snap-spot-journey/commit/61b3ea6))
 * chore(release): prepare for v0.2.0 ([acefe99](https://github.com/mlnwns/snap-spot-journey/commit/acefe99))
 * chore(release): prepare for v0.3.0 ([3bf4e1b](https://github.com/mlnwns/snap-spot-journey/commit/3bf4e1b))
+
 * chore(release): prepare for v0.4.0 ([6670192](https://github.com/mlnwns/snap-spot-journey/commit/6670192))
+
 * feat: em 수정 ([6cc9046](https://github.com/mlnwns/snap-spot-journey/commit/6cc9046))
 * feat: npm 삭제 ([19bbad0](https://github.com/mlnwns/snap-spot-journey/commit/19bbad0))
 * feat: pnpm 설치 ([824d8b1](https://github.com/mlnwns/snap-spot-journey/commit/824d8b1))
