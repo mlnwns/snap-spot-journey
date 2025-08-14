@@ -1,55 +1,59 @@
 name: Release
 
 on:
-  workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: main
+
+permissions:
+  contents: write
 
 jobs:
-  release:
+  tag_and_release:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout (full history)
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
+        working-directory: ./frontend
 
-      - name: Determine next version
-        id: bump
+      - name: Read version from package.json
+        id: read
         run: |
-          NEXT_VERSION=$(npx -y \
-            -p conventional-recommended-bump@9 \
-            -p conventional-changelog-conventionalcommits@7 \
-            conventional-recommended-bump -p conventionalcommits)
-          echo "version=$NEXT_VERSION" >> $GITHUB_OUTPUT
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Tag to create: v$VERSION"
+        working-directory: ./frontend
 
-      - name: Bump version
+      - name: Skip if tag already exists
+        id: check
         run: |
-          npm version ${{ steps.bump.outputs.version }} --no-git-tag-version
+          git fetch --tags
+          if git rev-parse "v${{ steps.read.outputs.version }}" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Generate changelog
-        run: |
-          npx -y \
-            -p conventional-changelog-cli@4 \
-            -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s
-
-      - name: Commit and tag release
+      - name: Create tag
+        if: steps.check.outputs.exists == 'false'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json CHANGELOG.md
-          git commit -m "chore(release): ${{ steps.bump.outputs.version }}"
-          git tag -a "v${{ steps.bump.outputs.version }}" -m "Release ${{ steps.bump.outputs.version }}"
+          git tag -a "v${{ steps.read.outputs.version }}" -m "Release v${{ steps.read.outputs.version }}"
+          git push origin "v${{ steps.read.outputs.version }}"
 
-      - name: Push changes
-        run: git push origin main --tags
+      - name: Generate Release notes and publish
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.read.outputs.version }}
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

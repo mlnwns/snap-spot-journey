@@ -28,6 +28,10 @@ jobs:
         with:
           node-version: "20"
 
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # 1. frontend 폴더에서 버전 결정 및 CHANGELOG.md 업데이트
       - name: Update version and CHANGELOG
         id: update_files
         run: |
@@ -40,34 +44,31 @@ jobs:
 
           if [ -z "$BUMP" ]; then BUMP=patch; fi
 
-          npm version "$BUMP" --no-git-tag-version
+          pnpm version "$BUMP" --no-git-tag-version
           VERSION=$(node -p "require('./package.json').version")
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          # 기존 CHANGELOG 내용을 임시 파일에 백업
           if [ -f CHANGELOG.md ]; then
             mv CHANGELOG.md OLD_CHANGELOG.md
           fi
 
-          # 새로운 CHANGELOG 생성 (최신 내역만)
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
             conventional-changelog -p conventionalcommits -i OLD_CHANGELOG.md -s -r 1 > CHANGELOG.md
 
-          # 기존 CHANGELOG 내용이 있으면 새로운 내용에 덧붙이기
           if [ -f OLD_CHANGELOG.md ]; then
             cat OLD_CHANGELOG.md >> CHANGELOG.md
             rm OLD_CHANGELOG.md
           fi
 
-          # CHANGELOG.md 파일을 루트 경로로 이동
           mv CHANGELOG.md ../
 
+      # 2. 루트 경로에서 변경사항 커밋 및 푸시
       - name: Commit & push to PR branch
         run: |
-          if git diff --quiet -- CHANGELOG.md frontend/package.json; then
+          if git diff --quiet -- CHANGELOG.md frontend/package.json frontend/pnpm-lock.yaml; then
             echo "No changes to commit."
             exit 0
           fi
@@ -75,7 +76,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add CHANGELOG.md frontend/package.json
+          git add CHANGELOG.md frontend/package.json frontend/pnpm-lock.yaml
 
           if git diff --cached --quiet; then
             echo "No staged changes."
