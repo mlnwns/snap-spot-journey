@@ -1,6 +1,7 @@
-## <small>0.5.2 (2025-08-14)</small>
+## <small>0.5.3 (2025-08-14)</small>
 
 * fix: padding 수정 ([626fe66](https://github.com/mlnwns/snap-spot-journey/commit/626fe66))
+* fix: release.yml 개선 ([9cfe231](https://github.com/mlnwns/snap-spot-journey/commit/9cfe231))
 * fix: release.yml 문서 개선 ([5e73b23](https://github.com/mlnwns/snap-spot-journey/commit/5e73b23))
 * fix: 문서 수정 ([a7aede7](https://github.com/mlnwns/snap-spot-journey/commit/a7aede7))
 * fix: 불필요한 문구 제거 ([bce617a](https://github.com/mlnwns/snap-spot-journey/commit/bce617a))
@@ -10,6 +11,7 @@
 * chore(release): prepare for v0.5.0 ([d679056](https://github.com/mlnwns/snap-spot-journey/commit/d679056))
 * chore(release): prepare for v0.5.1 ([30eac7d](https://github.com/mlnwns/snap-spot-journey/commit/30eac7d))
 * chore(release): prepare for v0.5.1 ([7b35388](https://github.com/mlnwns/snap-spot-journey/commit/7b35388))
+* chore(release): prepare for v0.5.2 ([fa26fd8](https://github.com/mlnwns/snap-spot-journey/commit/fa26fd8))
 
 
 
