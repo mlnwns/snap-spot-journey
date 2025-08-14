@@ -28,13 +28,11 @@ jobs:
         with:
           node-version: "20"
 
-      # 1. frontend 폴더에서 버전 결정 및 CHANGELOG.md 업데이트
       - name: Update version and CHANGELOG
         id: update_files
         run: |
           cd frontend
 
-          # 다음 버전을 결정하고 package.json에 반영
           BUMP=$(npx -y \
             -p conventional-recommended-bump@9 \
             -p conventional-changelog-conventionalcommits@7 \
@@ -47,19 +45,28 @@ jobs:
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          # frontend 폴더에 CHANGELOG.md 생성/업데이트
+          # 기존 CHANGELOG 내용을 임시 파일에 백업
+          if [ -f CHANGELOG.md ]; then
+            mv CHANGELOG.md OLD_CHANGELOG.md
+          fi
+
+          # 새로운 CHANGELOG 생성 (최신 내역만)
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
-            
+            conventional-changelog -p conventionalcommits -i OLD_CHANGELOG.md -s -r 1 > CHANGELOG.md
+
+          # 기존 CHANGELOG 내용이 있으면 새로운 내용에 덧붙이기
+          if [ -f OLD_CHANGELOG.md ]; then
+            cat OLD_CHANGELOG.md >> CHANGELOG.md
+            rm OLD_CHANGELOG.md
+          fi
+
           # CHANGELOG.md 파일을 루트 경로로 이동
           mv CHANGELOG.md ../
 
-      # 2. 루트 경로에서 변경사항 커밋 및 푸시
       - name: Commit & push to PR branch
         run: |
-          # 루트에서 변경된 CHANGELOG.md와 frontend의 package.json을 함께 확인
           if git diff --quiet -- CHANGELOG.md frontend/package.json; then
             echo "No changes to commit."
             exit 0
