@@ -19,20 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: "pnpm"
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Determine next version
         id: bump
         run: |
-          NEXT_VERSION=$(pnpm dlx \
+          NEXT_VERSION=$(npx -y \
             -p conventional-recommended-bump@9 \
             -p conventional-changelog-conventionalcommits@7 \
             conventional-recommended-bump -p conventionalcommits)
@@ -40,11 +34,11 @@ jobs:
 
       - name: Bump version
         run: |
-          pnpm version ${{ steps.bump.outputs.version }} --no-git-tag-version
+          npm version ${{ steps.bump.outputs.version }} --no-git-tag-version
 
       - name: Generate changelog
         run: |
-          pnpm dlx \
+          npx -y \
             -p conventional-changelog-cli@4 \
             -p conventional-changelog-conventionalcommits@7 \
             conventional-changelog -p conventionalcommits -i CHANGELOG.md -s
