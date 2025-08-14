@@ -1,7 +1,6 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Header from '@/components/Header';
-import { Button } from '@/components/ui/button';
+import { useNavigate } from "react-router-dom";
+import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
 
 const Bookmarks = () => {
   const navigate = useNavigate();
@@ -9,7 +8,7 @@ const Bookmarks = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 max-w-[393px] mx-auto">
       <Header />
-      
+
       <main className="pt-[56px] pb-6">
         <div className="px-3">
           <div className="text-center py-20">
@@ -21,7 +20,7 @@ const Bookmarks = () => {
               마음에 드는 포토스팟을 북마크해보세요
             </p>
             <Button
-              onClick={() => navigate('/spots')}
+              onClick={() => navigate("/spots")}
               className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg text-sm"
             >
               포토스팟 둘러보기
