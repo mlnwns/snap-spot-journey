@@ -2,15 +2,11 @@ name: Prepare Release
 
 on:
   pull_request:
-    branches: [main] # PR의 대상 브랜치가 main일 때 실행
+    branches: [main]
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write # PR 브랜치에 커밋/푸시하려면 필요
-
-defaults:
-  run:
-    working-directory: ./frontend
+  contents: write
 
 jobs:
   prepare:
@@ -22,16 +18,18 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref }} # PR의 헤드 브랜치를 체크아웃
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
+      # 1. frontend 폴더에서 버전 결정 및 package.json 업데이트
       - name: Determine next version (auto)
         id: bump
         run: |
+          cd frontend
           BUMP=$(npx -y \
             -p conventional-recommended-bump@9 \
             -p conventional-changelog-conventionalcommits@7 \
@@ -45,16 +43,21 @@ jobs:
           echo "bump=$BUMP" >> $GITHUB_OUTPUT
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
+      # 2. 루트 경로에서 CHANGELOG.md 업데이트
       - name: Update CHANGELOG (only latest section)
         run: |
+          # --package 옵션으로 frontend의 package.json을 참조하여 루트에 CHANGELOG.md 생성
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
+            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1 \
+            --package frontend/package.json
 
+      # 3. 루트 경로에서 변경사항 커밋 및 푸시
       - name: Commit & push to PR branch
         run: |
-          if git diff --quiet -- CHANGELOG.md package.json; then
+          # 변경이 있는지 frontend/package.json, 루트의 CHANGELOG.md를 함께 확인
+          if git diff --quiet -- frontend/package.json CHANGELOG.md; then
             echo "No changes to commit."
             exit 0
           fi
@@ -62,6 +65,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add CHANGELOG.md package.json
+          git add frontend/package.json CHANGELOG.md
+
+          if git diff --cached --quiet; then
+            echo "No staged changes."
+            exit 0
+          fi
+
           git commit -m "chore(release): prepare for v${{ steps.bump.outputs.version }}"
           git push origin HEAD:${{ github.head_ref }}
