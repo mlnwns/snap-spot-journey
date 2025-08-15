@@ -1,23 +1,23 @@
-
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { PhotoSpot, SpotTheme, UserLocation } from '@/types';
-import { mockPhotoSpots } from '@/data/mockSpots';
-import Header from '@/components/Header';
-import FilterBar from '@/components/FilterBar';
-import SpotCard from '@/components/SpotCard';
-import MapView from '@/components/MapView';
-import RegionSelector from '@/components/RegionSelector';
-import { useToast } from '@/hooks/use-toast';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { PhotoSpot, SpotTheme, UserLocation } from "@/types";
+import { mockPhotoSpots } from "@/data/mockSpots";
+import Header from "@/components/Header";
+import FilterBar from "@/components/FilterBar";
+import SpotCard from "@/components/SpotCard";
+import MapView from "@/components/MapView";
+import RegionSelector from "@/components/RegionSelector";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const navigate = useNavigate();
   const [selectedThemes, setSelectedThemes] = useState<SpotTheme[]>([]);
   const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
   const [userLocation, setUserLocation] = useState<UserLocation | null>(null);
-  const [filteredSpots, setFilteredSpots] = useState<PhotoSpot[]>(mockPhotoSpots);
+  const [filteredSpots, setFilteredSpots] =
+    useState<PhotoSpot[]>(mockPhotoSpots);
   const [selectedSpot, setSelectedSpot] = useState<PhotoSpot | null>(null);
-  const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
+  const [viewMode, setViewMode] = useState<"list" | "map">("list");
   const { toast } = useToast();
 
   // 사용자 위치 가져오기
@@ -28,29 +28,31 @@ const Index = () => {
           const location = {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
-            accuracy: position.coords.accuracy
+            accuracy: position.coords.accuracy,
           };
           setUserLocation(location);
-          
+
           // 거리 계산 및 정렬
-          const spotsWithDistance = mockPhotoSpots.map(spot => ({
-            ...spot,
-            distance: calculateDistance(location, spot.coordinates)
-          })).sort((a, b) => a.distance - b.distance);
-          
+          const spotsWithDistance = mockPhotoSpots
+            .map((spot) => ({
+              ...spot,
+              distance: calculateDistance(location, spot.coordinates),
+            }))
+            .sort((a, b) => a.distance - b.distance);
+
           setFilteredSpots(spotsWithDistance);
-          
+
           toast({
             title: "위치를 찾았어요! 📍",
             description: "가까운 포토스팟을 보여드릴게요.",
           });
         },
         (error) => {
-          console.error('위치 정보를 가져올 수 없습니다:', error);
+          console.error("위치 정보를 가져올 수 없습니다:", error);
           toast({
             title: "위치 권한이 필요해요",
             description: "더 정확한 추천을 위해 위치 권한을 허용해주세요.",
-            variant: "destructive"
+            variant: "destructive",
           });
         }
       );
@@ -58,40 +60,47 @@ const Index = () => {
   }, [toast]);
 
   // 거리 계산 함수 (하버사인 공식)
-  const calculateDistance = (pos1: UserLocation, pos2: { lat: number; lng: number }) => {
+  const calculateDistance = (
+    pos1: UserLocation,
+    pos2: { lat: number; lng: number }
+  ) => {
     const R = 6371; // 지구 반지름 (km)
-    const dLat = (pos2.lat - pos1.lat) * Math.PI / 180;
-    const dLng = (pos2.lng - pos1.lng) * Math.PI / 180;
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(pos1.lat * Math.PI / 180) * Math.cos(pos2.lat * Math.PI / 180) * 
-      Math.sin(dLng/2) * Math.sin(dLng/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const dLat = ((pos2.lat - pos1.lat) * Math.PI) / 180;
+    const dLng = ((pos2.lng - pos1.lng) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((pos1.lat * Math.PI) / 180) *
+        Math.cos((pos2.lat * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };
 
   // 테마 및 지역 필터링
   useEffect(() => {
     let filtered = mockPhotoSpots;
-    
+
     // 테마 필터링
     if (selectedThemes.length > 0) {
-      filtered = filtered.filter(spot => 
-        selectedThemes.some(theme => spot.themes.includes(theme))
+      filtered = filtered.filter((spot) =>
+        selectedThemes.some((theme) => spot.themes.includes(theme))
       );
     }
 
     // 지역 필터링
     if (selectedRegion) {
-      filtered = filtered.filter(spot => spot.region === selectedRegion);
+      filtered = filtered.filter((spot) => spot.region === selectedRegion);
     }
 
     // 거리 계산 및 정렬
     if (userLocation) {
-      filtered = filtered.map(spot => ({
-        ...spot,
-        distance: calculateDistance(userLocation, spot.coordinates)
-      })).sort((a, b) => a.distance - b.distance);
+      filtered = filtered
+        .map((spot) => ({
+          ...spot,
+          distance: calculateDistance(userLocation, spot.coordinates),
+        }))
+        .sort((a, b) => a.distance - b.distance);
     }
 
     setFilteredSpots(filtered);
@@ -99,8 +108,10 @@ const Index = () => {
 
   const handleNavigate = (spot: PhotoSpot) => {
     // 카카오맵으로 길찾기
-    const kakaoUrl = `https://map.kakao.com/link/to/${encodeURIComponent(spot.name)},${spot.coordinates.lat},${spot.coordinates.lng}`;
-    window.open(kakaoUrl, '_blank');
+    const kakaoUrl = `https://map.kakao.com/link/to/${encodeURIComponent(
+      spot.name
+    )},${spot.coordinates.lat},${spot.coordinates.lng}`;
+    window.open(kakaoUrl, "_blank");
   };
 
   const handleBookmark = (spot: PhotoSpot) => {
@@ -117,16 +128,16 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 max-w-[393px] mx-auto">
       <Header />
-      <FilterBar 
+      <FilterBar
         selectedThemes={selectedThemes}
         onThemeChange={setSelectedThemes}
       />
-      
+
       <main className="pt-[96px] pb-6">
         <div className="px-3">
           {/* 지역 선택 */}
           <div className="mb-4">
-            <RegionSelector 
+            <RegionSelector
               selectedRegion={selectedRegion}
               onRegionChange={setSelectedRegion}
             />
@@ -136,21 +147,21 @@ const Index = () => {
           <div className="flex justify-center mb-6 mt-6">
             <div className="flex bg-white rounded-xl p-1 shadow-soft border border-blue-200">
               <button
-                onClick={() => setViewMode('list')}
+                onClick={() => setViewMode("list")}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  viewMode === 'list' 
-                    ? 'bg-blue-500 text-white shadow-md' 
-                    : 'text-slate-600 hover:text-blue-600'
+                  viewMode === "list"
+                    ? "bg-blue-500 text-white shadow-md"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
                 📋 리스트
               </button>
               <button
-                onClick={() => setViewMode('map')}
+                onClick={() => setViewMode("map")}
                 className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                  viewMode === 'map' 
-                    ? 'bg-blue-500 text-white shadow-md' 
-                    : 'text-slate-600 hover:text-blue-600'
+                  viewMode === "map"
+                    ? "bg-blue-500 text-white shadow-md"
+                    : "text-slate-600 hover:text-blue-600"
                 }`}
               >
                 🗺️ 지도
@@ -158,23 +169,23 @@ const Index = () => {
             </div>
           </div>
 
-          {viewMode === 'list' ? (
+          {viewMode === "list" ? (
             <>
               {/* 헤더 정보 */}
               <div className="text-center mb-6">
                 <h2 className="text-lg font-bold text-slate-800 mb-2">
-                  {selectedRegion 
-                    ? `🏙️ ${selectedRegion} 포토스팟` 
-                    : userLocation 
-                      ? '📍 가까운 포토스팟' 
-                      : '🔥 인기 포토스팟'
-                  }
+                  {selectedRegion
+                    ? `🏙️ ${selectedRegion} 포토스팟`
+                    : userLocation
+                    ? "📍 가까운 포토스팟"
+                    : "🔥 인기 포토스팟"}
                 </h2>
                 <p className="text-slate-600 text-sm">
-                  {selectedThemes.length > 0 
-                    ? `${selectedThemes.join(', ')} 테마 • ${filteredSpots.length}개 장소`
-                    : `총 ${filteredSpots.length}개의 감성 포토스팟`
-                  }
+                  {selectedThemes.length > 0
+                    ? `${selectedThemes.join(", ")} 테마 • ${
+                        filteredSpots.length
+                      }개 장소`
+                    : `총 ${filteredSpots.length}개의 감성 포토스팟`}
                 </p>
               </div>
 
