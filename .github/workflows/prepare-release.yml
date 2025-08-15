@@ -48,27 +48,28 @@ jobs:
 
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          # package.json 변경사항을 pnpm-lock.yaml에 반영
           pnpm install --lockfile-only
 
-          if [ -f CHANGELOG.md ]; then
-            mv CHANGELOG.md OLD_CHANGELOG.md
-          fi
-
+          # 최신 CHANGELOG 내용을 임시 파일에 생성 (루트 경로에 위치)
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i OLD_CHANGELOG.md -s -r 1 > CHANGELOG.md
-
-          if [ -f OLD_CHANGELOG.md ]; then
-            cat OLD_CHANGELOG.md >> CHANGELOG.md
-            rm OLD_CHANGELOG.md
+            conventional-changelog -p conventionalcommits -i OLD_CHANGELOG.md -s -r 1 > ../NEW_CHANGELOG.md
+            
+          # 기존 CHANGELOG.md 파일이 있다면, 새 내용과 합쳐서 업데이트
+          if [ -f ../CHANGELOG.md ]; then
+            cat ../NEW_CHANGELOG.md ../CHANGELOG.md > ../TEMP_CHANGELOG.md
+            mv ../TEMP_CHANGELOG.md ../CHANGELOG.md
+            rm ../NEW_CHANGELOG.md
+          else
+            mv ../NEW_CHANGELOG.md ../CHANGELOG.md
           fi
 
-          mv CHANGELOG.md ../
+          # CHANGELOG.md 파일을 frontend 폴더로 이동했으므로, 다시 루트로 옮길 필요 없음.
 
       - name: Commit & push to PR branch
         run: |
+          # frontend 폴더에서 작업했으므로, 다시 루트로 돌아와서 커밋
           if git diff --quiet -- CHANGELOG.md frontend/package.json frontend/pnpm-lock.yaml; then
             echo "No changes to commit."
             exit 0
