@@ -1,60 +1,60 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Camera, MapPin, ArrowLeft, Upload, Plus, X } from 'lucide-react';
-import { SpotTheme, SpotRegistration, SpotCategory } from '@/types';
-import { useToast } from '@/hooks/use-toast';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Camera, MapPin, ArrowLeft, Upload, Plus, X } from "lucide-react";
+import { SpotTheme, SpotRegistration, SpotCategory } from "@/types";
+import { useToast } from "@/hooks/use-toast";
 
 const AddSpot = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [formData, setFormData] = useState<SpotRegistration>({
-    name: '',
-    description: '',
+    name: "",
+    description: "",
     coordinates: { lat: 0, lng: 0 },
     images: [],
     themes: [],
-    category: 'outdoor',
+    category: "outdoor",
     tips: [],
-    region: 'seoul',
+    region: "seoul",
     detailedLocation: {},
-    operationInfo: {}
+    operationInfo: {},
   });
-  const [newTip, setNewTip] = useState('');
+  const [newTip, setNewTip] = useState("");
 
   const themeOptions: { value: SpotTheme; label: string }[] = [
-    { value: 'couple', label: '💕 커플' },
-    { value: 'solo', label: '🧘 혼자' },
-    { value: 'friends', label: '👥 친구들' },
-    { value: 'content', label: '📹 콘텐츠' },
-    { value: 'vintage', label: '🎞️ 빈티지' },
-    { value: 'minimal', label: '⚪ 미니멀' },
-    { value: 'nature', label: '🌿 자연' },
-    { value: 'urban', label: '🏙️ 도심' },
-    { value: 'pet', label: '🐕 반려동물' },
-    { value: 'sunset', label: '🌅 노을' },
-    { value: 'night', label: '🌙 야경' }
+    { value: "couple", label: "💕 커플" },
+    { value: "solo", label: "🧘 혼자" },
+    { value: "friends", label: "👥 친구들" },
+    { value: "content", label: "📹 콘텐츠" },
+    { value: "vintage", label: "🎞️ 빈티지" },
+    { value: "minimal", label: "⚪ 미니멀" },
+    { value: "nature", label: "🌿 자연" },
+    { value: "urban", label: "🏙️ 도심" },
+    { value: "pet", label: "🐕 반려동물" },
+    { value: "sunset", label: "🌅 노을" },
+    { value: "night", label: "🌙 야경" },
   ];
 
   const categoryOptions: { value: SpotCategory; label: string }[] = [
-    { value: 'outdoor', label: '야외' },
-    { value: 'indoor', label: '실내' },
-    { value: 'cafe', label: '카페' },
-    { value: 'nature', label: '자연' },
-    { value: 'urban', label: '도심' },
-    { value: 'rooftop', label: '루프탑' },
-    { value: 'underground', label: '지하' }
+    { value: "outdoor", label: "야외" },
+    { value: "indoor", label: "실내" },
+    { value: "cafe", label: "카페" },
+    { value: "nature", label: "자연" },
+    { value: "urban", label: "도심" },
+    { value: "rooftop", label: "루프탑" },
+    { value: "underground", label: "지하" },
   ];
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
             coordinates: {
               lat: position.coords.latitude,
-              lng: position.coords.longitude
-            }
+              lng: position.coords.longitude,
+            },
           }));
           toast({
             title: "현재 위치를 가져왔어요! 📍",
@@ -65,7 +65,7 @@ const AddSpot = () => {
           toast({
             title: "위치를 가져올 수 없어요",
             description: "직접 입력해주세요.",
-            variant: "destructive"
+            variant: "destructive",
           });
         }
       );
@@ -73,28 +73,28 @@ const AddSpot = () => {
   };
 
   const toggleTheme = (theme: SpotTheme) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       themes: prev.themes.includes(theme)
-        ? prev.themes.filter(t => t !== theme)
-        : [...prev.themes, theme]
+        ? prev.themes.filter((t) => t !== theme)
+        : [...prev.themes, theme],
     }));
   };
 
   const addTip = () => {
     if (newTip.trim()) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        tips: [...prev.tips, newTip.trim()]
+        tips: [...prev.tips, newTip.trim()],
       }));
-      setNewTip('');
+      setNewTip("");
     }
   };
 
   const removeTip = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      tips: prev.tips.filter((_, i) => i !== index)
+      tips: prev.tips.filter((_, i) => i !== index),
     }));
   };
 
@@ -105,7 +105,7 @@ const AddSpot = () => {
       title: "포토스팟이 등록되었어요! 🎉",
       description: "검토 후 24시간 이내에 게시됩니다.",
     });
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -115,13 +115,15 @@ const AddSpot = () => {
         <div className="px-3 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <button 
-                onClick={() => navigate('/spots')}
+              <button
+                onClick={() => navigate("/spots")}
                 className="p-2 hover:bg-white/50 rounded-lg transition-colors"
               >
                 <ArrowLeft className="w-4 h-4 text-slate-600" />
               </button>
-              <h1 className="text-base font-bold text-slate-800">포토스팟 등록</h1>
+              <h1 className="text-base font-bold text-slate-800">
+                포토스팟 등록
+              </h1>
             </div>
           </div>
         </div>
@@ -132,15 +134,21 @@ const AddSpot = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* 기본 정보 */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">기본 정보</h2>
-              
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                기본 정보
+              </h2>
+
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">스팟 이름</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    스팟 이름
+                  </label>
                   <input
                     type="text"
                     value={formData.name}
-                    onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, name: e.target.value }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                     placeholder="예) 북촌 한옥마을 감성 골목"
                     required
@@ -148,10 +156,17 @@ const AddSpot = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">설명</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    설명
+                  </label>
                   <textarea
                     value={formData.description}
-                    onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        description: e.target.value,
+                      }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                     rows={3}
                     placeholder="이 포토스팟만의 특별한 점을 알려주세요"
@@ -160,23 +175,39 @@ const AddSpot = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">카테고리</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    카테고리
+                  </label>
                   <select
                     value={formData.category}
-                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as SpotCategory }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        category: e.target.value as SpotCategory,
+                      }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                   >
-                    {categoryOptions.map(option => (
-                      <option key={option.value} value={option.value}>{option.label}</option>
+                    {categoryOptions.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
                     ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">지역</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    지역
+                  </label>
                   <select
                     value={formData.region}
-                    onChange={(e) => setFormData(prev => ({ ...prev, region: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        region: e.target.value,
+                      }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                   >
                     <option value="seoul">서울</option>
@@ -191,7 +222,9 @@ const AddSpot = () => {
             {/* 위치 정보 */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-slate-800">위치 정보</h2>
+                <h2 className="text-lg font-semibold text-slate-800">
+                  위치 정보
+                </h2>
                 <button
                   type="button"
                   onClick={getCurrentLocation}
@@ -204,30 +237,44 @@ const AddSpot = () => {
 
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">위도</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    위도
+                  </label>
                   <input
                     type="number"
                     step="any"
                     value={formData.coordinates.lat}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      coordinates: { ...prev.coordinates, lat: parseFloat(e.target.value) || 0 }
-                    }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        coordinates: {
+                          ...prev.coordinates,
+                          lat: parseFloat(e.target.value) || 0,
+                        },
+                      }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                     placeholder="37.5665"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-700 mb-2">경도</label>
+                  <label className="block text-sm font-medium text-slate-700 mb-2">
+                    경도
+                  </label>
                   <input
                     type="number"
                     step="any"
                     value={formData.coordinates.lng}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      coordinates: { ...prev.coordinates, lng: parseFloat(e.target.value) || 0 }
-                    }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        coordinates: {
+                          ...prev.coordinates,
+                          lng: parseFloat(e.target.value) || 0,
+                        },
+                      }))
+                    }
                     className="w-full px-4 py-3 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent"
                     placeholder="126.9780"
                     required
@@ -237,45 +284,67 @@ const AddSpot = () => {
 
               {/* 상세 위치 */}
               <div className="space-y-3">
-                <h3 className="text-sm font-medium text-slate-700">상세 위치 (선택사항)</h3>
+                <h3 className="text-sm font-medium text-slate-700">
+                  상세 위치 (선택사항)
+                </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <input
                     type="text"
-                    value={formData.detailedLocation?.building || ''}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      detailedLocation: { ...prev.detailedLocation, building: e.target.value }
-                    }))}
+                    value={formData.detailedLocation?.building || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        detailedLocation: {
+                          ...prev.detailedLocation,
+                          building: e.target.value,
+                        },
+                      }))
+                    }
                     className="px-3 py-2 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent text-sm"
                     placeholder="건물명"
                   />
                   <input
                     type="text"
-                    value={formData.detailedLocation?.floor || ''}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      detailedLocation: { ...prev.detailedLocation, floor: e.target.value }
-                    }))}
+                    value={formData.detailedLocation?.floor || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        detailedLocation: {
+                          ...prev.detailedLocation,
+                          floor: e.target.value,
+                        },
+                      }))
+                    }
                     className="px-3 py-2 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent text-sm"
                     placeholder="층수/위치"
                   />
                   <input
                     type="text"
-                    value={formData.detailedLocation?.entrance || ''}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      detailedLocation: { ...prev.detailedLocation, entrance: e.target.value }
-                    }))}
+                    value={formData.detailedLocation?.entrance || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        detailedLocation: {
+                          ...prev.detailedLocation,
+                          entrance: e.target.value,
+                        },
+                      }))
+                    }
                     className="px-3 py-2 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent text-sm"
                     placeholder="입구 정보"
                   />
                   <input
                     type="text"
-                    value={formData.detailedLocation?.landmark || ''}
-                    onChange={(e) => setFormData(prev => ({ 
-                      ...prev, 
-                      detailedLocation: { ...prev.detailedLocation, landmark: e.target.value }
-                    }))}
+                    value={formData.detailedLocation?.landmark || ""}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        detailedLocation: {
+                          ...prev.detailedLocation,
+                          landmark: e.target.value,
+                        },
+                      }))
+                    }
                     className="px-3 py-2 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent text-sm"
                     placeholder="주변 랜드마크"
                   />
@@ -285,17 +354,19 @@ const AddSpot = () => {
 
             {/* 테마 선택 */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">테마 선택</h2>
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                테마 선택
+              </h2>
               <div className="flex flex-wrap gap-2">
-                {themeOptions.map(option => (
+                {themeOptions.map((option) => (
                   <button
                     key={option.value}
                     type="button"
                     onClick={() => toggleTheme(option.value)}
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                       formData.themes.includes(option.value)
-                        ? 'bg-pastel-500 text-slate-700 shadow-md'
-                        : 'bg-white border border-pastel-300 text-slate-600 hover:bg-pastel-50'
+                        ? "bg-pastel-500 text-slate-700 shadow-md"
+                        : "bg-white border border-pastel-300 text-slate-600 hover:bg-pastel-50"
                     }`}
                   >
                     {option.label}
@@ -306,8 +377,10 @@ const AddSpot = () => {
 
             {/* 촬영 팁 */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">촬영 팁</h2>
-              
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                촬영 팁
+              </h2>
+
               <div className="flex space-x-2 mb-4">
                 <input
                   type="text"
@@ -315,7 +388,9 @@ const AddSpot = () => {
                   onChange={(e) => setNewTip(e.target.value)}
                   className="flex-1 px-4 py-2 border border-pastel-300 rounded-lg focus:ring-2 focus:ring-pastel-500 focus:border-transparent text-sm"
                   placeholder="촬영 팁을 입력해주세요"
-                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTip())}
+                  onKeyPress={(e) =>
+                    e.key === "Enter" && (e.preventDefault(), addTip())
+                  }
                 />
                 <button
                   type="button"
@@ -328,7 +403,10 @@ const AddSpot = () => {
 
               <div className="space-y-2">
                 {formData.tips.map((tip, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-pastel-50 rounded-lg">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-3 bg-pastel-50 rounded-lg"
+                  >
                     <span className="text-sm text-slate-700">{tip}</span>
                     <button
                       type="button"
@@ -344,11 +422,17 @@ const AddSpot = () => {
 
             {/* 이미지 업로드 (임시 UI) */}
             <div className="bg-white/95 backdrop-blur-sm rounded-xl p-6 shadow-soft border border-pastel-200">
-              <h2 className="text-lg font-semibold text-slate-800 mb-4">사진 업로드</h2>
+              <h2 className="text-lg font-semibold text-slate-800 mb-4">
+                사진 업로드
+              </h2>
               <div className="border-2 border-dashed border-pastel-300 rounded-lg p-8 text-center">
                 <Upload className="w-12 h-12 text-pastel-400 mx-auto mb-4" />
-                <p className="text-slate-600 mb-2">사진을 드래그하거나 클릭해서 업로드</p>
-                <p className="text-sm text-slate-500">최대 5장까지 업로드 가능</p>
+                <p className="text-slate-600 mb-2">
+                  사진을 드래그하거나 클릭해서 업로드
+                </p>
+                <p className="text-sm text-slate-500">
+                  최대 5장까지 업로드 가능
+                </p>
               </div>
             </div>
 
