@@ -23,7 +23,7 @@ const AddSpot = () => {
 
   const themeOptions: { value: SpotTheme; label: string }[] = [
     { value: "couple", label: "💕 커플" },
-    { value: "solo", label: "🧘 혼자" },
+    { value: "solo", label: "🧘 혼자11" },
     { value: "friends", label: "👥 친구들" },
     { value: "content", label: "📹 콘텐츠" },
     { value: "vintage", label: "🎞️ 빈티지" },
