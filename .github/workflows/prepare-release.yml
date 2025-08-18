@@ -1,16 +1,15 @@
-name: Prepare Release (PR)
+name: Prepare Release
 
 on:
   pull_request:
-    branches: [fe/prod] # base가 fe/prod인 PR만
+    branches: [main]
     types: [opened, synchronize, reopened]
 
 permissions:
-  contents: write # PR 브랜치에 커밋/푸시하려면 필요
+  contents: write
 
 jobs:
   prepare:
-    # 포크 PR은 권한이 없어 푸시 불가 → same-repo PR만 동작
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
 
@@ -18,31 +17,19 @@ jobs:
       - name: Checkout (full history)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # 태그/히스토리 필요
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Fetch all tags
+        run: git fetch --tags
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      - name: Determine next version (auto)
-        id: bump
-        shell: bash
-        run: |
-          cd frontend 
-
-          BUMP=$(npx -y \
-            -p conventional-recommended-bump@9 \
-            -p conventional-changelog-conventionalcommits@7 \
-            conventional-recommended-bump -p conventionalcommits)
-
-          if [ -z "$BUMP" ]; then BUMP=patch; fi
-
-          npm version "$BUMP" --no-git-tag-version
-          VERSION=$(node -p "require('./package.json').version")
-
-          echo "bump=$BUMP" >> $GITHUB_OUTPUT
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      - name: Install pnpm
+        run: npm install -g pnpm
 
       - name: Debug tags
         run: |
@@ -52,35 +39,41 @@ jobs:
           echo "== Most recent tag reachable from HEAD =="
           git describe --tags --abbrev=0 HEAD || echo "No tag found reachable from HEAD"
 
-      - name: Update CHANGELOG (only latest section)
-        shell: bash
+      - name: Update version and lockfile
+        id: update_files
         run: |
-          cd frontend 
+          cd frontend
 
-          npx -y \
-            -p conventional-changelog-cli@5 \
+          BUMP=$(npx -y \
+            -p conventional-recommended-bump@9 \
             -p conventional-changelog-conventionalcommits@7 \
-            conventional-changelog -p conventionalcommits -i CHANGELOG.md -s -r 1
+            conventional-recommended-bump -p conventionalcommits)
+
+          if [ -z "$BUMP" ]; then BUMP=patch; fi
+
+          pnpm version "$BUMP" --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          pnpm install --lockfile-only
 
       - name: Commit & push to PR branch
-        shell: bash
         run: |
-          # CHANGELOG.md, package.json에 실제 변경이 있는지 확인
-          if git diff --quiet -- CHANGELOG.md package.json; then
+          if git diff --quiet -- frontend/package.json frontend/pnpm-lock.yaml; then
             echo "No changes to commit."
             exit 0
           fi
 
-          git config user.name  "github-actions[bot]"
+          git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add CHANGELOG.md package.json
+          git add frontend/package.json frontend/pnpm-lock.yaml
 
-          # stage에 변경이 없으면 스킵
           if git diff --cached --quiet; then
             echo "No staged changes."
             exit 0
           fi
 
-          git commit -m "chore(release): v${{ steps.bump.outputs.version }}"
+          git commit -m "chore(release): prepare for v${{ steps.update_files.outputs.version }}"
           git push origin HEAD:${{ github.head_ref }}
