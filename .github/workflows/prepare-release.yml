@@ -2,7 +2,7 @@ name: Prepare Release
 
 on:
   pull_request:
-    branches: [main]
+    branches: [fe/prod]
     types: [opened, synchronize, reopened]
 
 permissions:
