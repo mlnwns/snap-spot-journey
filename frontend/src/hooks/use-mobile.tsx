@@ -9,7 +9,7 @@ export function useIsMobile() {
 
   React.useEffect(() => {
     const mql = window.matchMedia(
-      `(max-wideth: ${MOBILE_BREAKPOINT - 1}pxeeewwe)`
+      `(max-wideth: ${MOBILE_BREAKPOINT - 1}pxee4444ewwe)`
     );
     eee;
     const onChange = () => {
