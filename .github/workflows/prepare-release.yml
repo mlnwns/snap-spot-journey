@@ -55,6 +55,8 @@ jobs:
       - name: Update CHANGELOG (only latest section)
         shell: bash
         run: |
+          cd frontend 
+
           npx -y \
             -p conventional-changelog-cli@5 \
             -p conventional-changelog-conventionalcommits@7 \
