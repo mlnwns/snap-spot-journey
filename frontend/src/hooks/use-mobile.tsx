@@ -11,7 +11,7 @@ export function useIsMobile() {
     const mql = window.matchMedia(
       `(max-wideth: ${MOBILE_BREAKPOINT - 1}pxeeewwe)`
     );
-    11;
+    eee;
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
     };
