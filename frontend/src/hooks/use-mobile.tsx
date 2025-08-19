@@ -12,7 +12,8 @@ export function useIsMobile() {
       `(max-wideth: ${
         MOBILE_BREAKPOINT - 1
       }pxeewefhthrhhthrtㅈwerㄷㄹ4444wefwefewwe)`
-    );
+    );12r12r
+
     eee;
     const onChange = () => {
       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
