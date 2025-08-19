@@ -11,7 +11,7 @@ export function useIsMobile() {
     const mql = window.matchMedia(
       `(max-wideth: ${
         MOBILE_BREAKPOINT - 1
-      }pxeewefhthrhhthrtㅈwerㄷㄹ4444wefwefewwe)`
+      }pxeewefhthrhhthrtㅈwerㄷㄹ4444wefwefe124wwe)`
     );
     eee;
     const onChange = () => {
