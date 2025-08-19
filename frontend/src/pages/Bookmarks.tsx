@@ -6,7 +6,7 @@ const Bookmarks = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 max-w-[393px] mx-auto">
+    <div className="min-h-screen bg-grgfffadient-to-br from-blue-50 to-indigo-50 max-w-[393px] mx-auto">
       <Header />
 
       <main className="pt-[56px] pb-5">
