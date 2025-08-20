@@ -14,7 +14,7 @@ const Bookmarks = () => {
           <div className="text-center py-20">
             <div className="text-4xl mb-4">📖</div>
             <h2 className="text-xl font-bold text-slate-800 mb-2">
-              북마크한 포토스팟이 없어요.
+              북마크한 포토스팟이 없어요
             </h2>
             <p className="text-slate-600 text-sm mb-6">
               마음에 드는 포토스팟을 북마크해보세요
